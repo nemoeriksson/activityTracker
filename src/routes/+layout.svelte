@@ -1,38 +1,17 @@
+<head>
+	<link rel="stylesheet" href="style/layout.css">
+</head>
 
-<title>Fire site</title>
+<title>OnFit</title>
 
 <div id="site">
 	<nav>
-		<a id="name" href="/">OnFit</a>
-		<p class="seperator">|</p>
+		<a class="title" href="/">OnFit</a>
+		
 		<section class="links">
-			<a href="/leaderboard">leaderboard</a>
-			<a href="/login">sign-up/sign-in</a>
+			<a href="/leaderboard">Leaderboard</a>
+			<a href="/login">Log In</a>
 		</section>
 	</nav>
 	<slot/>
 </div>
-
-<style>
-	.links {
-		display: flex;
-		gap: 10px;
-	}
-	#site {
-		position: absolute;
-		left: 0;
-		top: 0;
-		margin: 0;
-	}
-	nav {
-		display: flex;
-		background-color: red;
-		margin: 0;
-		width: 100vw;
-	}
-	nav * {
-		font-size: 1rem;
-		padding: 0;
-		margin: 0;
-	}
-</style>
