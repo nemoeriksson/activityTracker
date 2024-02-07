@@ -6,3 +6,6 @@
 	import type {PageData} from "./$types";
 	export let data: PageData;
 </script>
+<head>
+    <link rel="stylesheet" href="style/homepage.css">
+</head>
