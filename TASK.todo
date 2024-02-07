@@ -1,0 +1,33 @@
+Mål att öka personalens aktivitet
+Träningsutmaningar
+Samla poäng för olika aktivitet (yoga, styrka etc)
+Poäng mål
+Logga aktiviteter -> mer poäng
+Leaderboard
+Inlogg
+
+Ge förslag på aktiviteter
+	Admin godkänna förslag
+
+Se aktiviteter + poäng för aktivitet
+Se alla pass
+Se leaderboard
+Se avklarade
+Rösta på aktivitet
+
+Mobilanpassad + UX
+
+=== Användare:
+	Anvnamn
+	Email
+	Lösen (hash+salt)
+	Poäng
+	Admin?
+	Avklarade aktiviteter
+
+=== Aktivitet
+	Titel
+	Beskrivning
+	Poäng
+	Användare som klarat
+	Upvotes
