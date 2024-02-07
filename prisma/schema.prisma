@@ -40,6 +40,7 @@ model Aktivitet {
   userId       Int
   points       Int
   performances Performance[]
+  approved     Boolean
 }
 
 model Review {
