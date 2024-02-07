@@ -19,6 +19,7 @@ model User {
   createdAktivitet Aktivitet[]
   reviews          Review[]
   performances     Performance[]
+  admin            Boolean
 }
 
 model AuthToken {
