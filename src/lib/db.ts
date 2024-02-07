@@ -57,11 +57,17 @@ export async function createUser(username: string, password: string) {
 }
 
 export async function deleteAuthToken(id: string) {
-	return await prisma.authToken.delete({
+	if (await prisma.authToken.findUnique({
 		where: {
 			id: id,
 		}
-	});
+	})) {
+		return await prisma.authToken.delete({
+			where: {
+				id: id,
+			}
+		});
+	}
 }
 
 export async function createAuthToken(user: any) {
