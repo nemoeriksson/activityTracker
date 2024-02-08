@@ -101,3 +101,7 @@ export async function getUserByAuthToken(auth_token_id: string) {
 	}
 	return auth_token.user;
 }
+
+export async function validatePassword(user:any, password:string) {
+	return user.hash == await passwordToHash(password, user.salt);
+}

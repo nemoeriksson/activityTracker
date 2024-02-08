@@ -11,15 +11,15 @@ datasource db {
 }
 
 model User {
-  id               Int           @id @default(autoincrement())
-  username         String        @unique
+  id               Int            @id @default(autoincrement())
+  username         String         @unique
   hash             String
   salt             String
   authTokens       AuthToken[]
   createdAktivitet Aktivitet[]
   reviews          Review[]
   performances     Performance[]
-  admin            Boolean
+  admin            Boolean        @default(false)
 }
 
 model AuthToken {

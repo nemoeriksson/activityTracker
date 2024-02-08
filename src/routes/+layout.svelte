@@ -11,6 +11,7 @@
 		<section class="links">
 			<a href="/leaderboard">Leaderboard</a>
 			<a href="/login">Log In</a>
+			<a href="/login?tab=register">Register</a>
 		</section>
 	</nav>
 	<slot/>

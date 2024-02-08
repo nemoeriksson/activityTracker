@@ -1,47 +1,63 @@
-import type {Actions} from './$types';
-import {getUserByName, createUser, passwordToHash, deleteAuthToken, createAuthToken} from "$lib/db";
-import {redirect} from "@sveltejs/kit";
+import type {Actions, PageServerLoad} from './$types';
+import {getUserByName, createUser, passwordToHash, deleteAuthToken, createAuthToken, validatePassword, getUserByAuthToken} from "$lib/db";
+import {fail, redirect} from "@sveltejs/kit";
 
-import { error } from '@sveltejs/kit';
+const expirationTime = 30 * 3600 * 24;
+const redirectionTarget = '/dashboard';
+
+export const load = (async ({cookies}) => {
+	const authTokenId = cookies.get('token');
+
+	if(authTokenId){
+		const user = await getUserByAuthToken(authTokenId);
+		if(user)
+			throw redirect(301, redirectionTarget);
+	}
+
+	return {};
+}) satisfies PageServerLoad;
 
 export const actions: Actions = {
-	default: async ({cookies, request}) => {
-		let tokenStr = cookies.get("token");
-		if (tokenStr != undefined) {
-			await deleteAuthToken(tokenStr);
-		}
-		let form_data = await request.formData();
-		let username = form_data.get("username")?.toString();
-		let password = form_data.get("password")?.toString();
-		if (!username) return; // unreachable
-		if (!password) return; // unreachable
-		
-		console.log(username, password);
+	register: async({request, cookies}) => {
+		const data = await request.formData();
+		const email = data.get('email')!.toString();
 
-		let user = await getUserByName(username);
-		if (form_data.get("login")) {
-			if (user) {
-				if (await passwordToHash(password, user.salt) == user.hash) {
-				}
-			} else {
-				throw error(404, "user does not exist");
-			}
-		} else {
-			if (user) {
-				throw error(404, "user already exists");
-			} else {
-				user = await createUser(username, password);
-			}
-		}
-		if (user) {
-			let expireDate = new Date();
-			expireDate.setFullYear(expireDate.getFullYear()+1);
-			let token = await createAuthToken(user);
-			cookies.set("token", token.id, {
-				path: "/",
-				expires: expireDate,
-			});
-			throw redirect(303, "/");
-		}
+		const password = data.get('password')!.toString();
+		const passwordConfirm = data.get('password-confirm')!.toString();
+
+		const existingUser = await getUserByName(email);
+
+		if(existingUser)
+			return fail(403, {error: 'Email already in use'});
+
+		else if(password != passwordConfirm)
+			return fail(422, {error: 'Passwords do not match'});
+		
+		const user = await createUser(email, password);
+		const authToken = await createAuthToken(user);
+
+		cookies.set('token', authToken.id, {secure: false, path: '/', expires:new Date(Date.now() + expirationTime)});
+		
+		throw redirect(301, redirectionTarget);
 	},
+	login: async({request, cookies}) => {
+		const data = await request.formData();
+		const email = data.get('email')!.toString();
+		const password = data.get('password')!.toString();
+
+		const existingUser = await getUserByName(email);
+
+		if(!existingUser)
+			return fail(403, {error: 'Incorrect validation input'});
+
+		const validPassword = await validatePassword(existingUser, password);
+
+		if(validPassword){
+			const authToken = await createAuthToken(existingUser);
+			cookies.set('token', authToken.id, {secure: false, path: '/', expires:new Date(Date.now() + expirationTime)});
+			console.log('completed');
+			
+			throw redirect(301, redirectionTarget);
+		}
+	}
 };

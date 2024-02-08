@@ -8,11 +8,16 @@
 }
 
 :root{
-    --white: #fafaf4;
-    --black: #101014;
-    --main: #ee6c4d;
-    --dark: #293241;
-    --light: #e0fbfc;
-    --blue-light: #98c1d9;
-    --blue-dark: #3d5a80;
+    caret-color: transparent;
+    --white: #F9F7F7;
+    --black: #3F4756;
+    --gray: #999;
+    --light-gray: #eee;
+    --main: #1C7293;
+    --main2: #22c1c3;
+    --dark: #112D4E;
+}
+
+.hidden{
+    display: none;
 }

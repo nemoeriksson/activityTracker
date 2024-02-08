@@ -1,0 +1,155 @@
+nav{
+    display: none;
+}
+
+#site{
+    width: 100%;
+}
+
+main{
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
+
+main .formSection,
+main .secondary{
+    width: 50%;
+}
+
+.formSection{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+.formSection .icons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.formSection .sectionTitle{
+    font-size: 3em;
+    font-weight: 600;
+}
+
+.formSection form{
+    text-align: center;
+}
+
+form input{
+    outline: none;
+    border: none;
+    background: var(--light-gray);
+    width: 100%;
+    aspect-ratio: 100 / 15;
+    margin-top: 10px;
+    border-radius: 4px;
+    font-size: 1em;
+    padding: 0 20px;
+}
+
+form input:focus-within{
+    caret-color: black;
+}
+
+form input::placeholder{
+    color: var(--gray);
+}
+
+form span{
+    margin-top: 20px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+form button{
+    margin-top: 20px;
+    border: none;
+    outline: none;
+    display: block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 60px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 1em;
+    color: var(--white);
+    font-weight: 500;
+    letter-spacing: .25px;
+    cursor: pointer;
+    background: linear-gradient(6deg, var(--main2), var(--main));
+}
+
+.icons div{
+    aspect-ratio: 1;
+    border-radius: 50%;
+    height: 42px;
+    border: 2px solid var(--gray);
+    cursor: pointer;
+}
+
+.icons .icon-fb{
+    background: url("/svgs/facebook.svg");
+    background-size: 60%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+.icons .icon-ig{
+    background: url("/svgs/google.svg");
+    background-size: 60%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+.icons .icon-git{
+    background: url("/svgs/github.svg");
+    background-size: 60%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+.secondary{
+    background: linear-gradient(12deg, var(--main2), var(--main) 45%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.secondary .text{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+    color: var(--white);
+}
+
+.text .title{
+    font-size: 2.5em;
+    font-weight: 600;
+    max-width: 250px;
+    text-align: center;
+}
+
+.text .description{
+    font-size: 1em;
+    max-width: 420px;
+    text-align: center;
+}
+
+.text a{
+    border: 2px solid var(--white);
+    padding: 12px 60px;
+    border-radius: 30px;
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 500;
+    letter-spacing: .25px;
+}
