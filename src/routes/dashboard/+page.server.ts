@@ -1,18 +1,15 @@
+import { getUserByAuthToken } from '$lib/db';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { getUserByAuthToken } from '$lib/db';
 
 export const load = (async ({cookies}) => {
-    const authTokenId = cookies.get('token');
-
-    if(!authTokenId)
-        throw redirect(301, '/');
-
-	if(authTokenId){
-		const user = await getUserByAuthToken(authTokenId);
-		if(!user)
-			throw redirect(301, '/');
+	let token = cookies.get("token");
+	if (!token) {
+		throw redirect(303, "/login");
 	}
-
-    return {};
+	let user = await getUserByAuthToken(token);
+	if (!user) {
+		throw redirect(303, "/login");
+	}
+	return {username: user.username}
 }) satisfies PageServerLoad;
