@@ -28,10 +28,10 @@ export const actions: Actions = {
 		const existingUser = await getUserByName(email);
 
 		if(existingUser)
-			return fail(403, {error: 'Email already in use'});
+			return fail(403, {error: 'Email already in use', errorType: 1});
 
 		else if(password != passwordConfirm)
-			return fail(422, {error: 'Passwords do not match'});
+			return fail(422, {error: 'Passwords do not match', errorType: 2});
 		
 		const user = await createUser(email, password);
 		const authToken = await createAuthToken(user);
@@ -48,14 +48,13 @@ export const actions: Actions = {
 		const existingUser = await getUserByName(email);
 
 		if(!existingUser)
-			return fail(403, {error: 'Incorrect validation input'});
+			return fail(403, {error: 'Incorrect validation input', errorType: 3});
 
 		const validPassword = await validatePassword(existingUser, password);
 
 		if(validPassword){
 			const authToken = await createAuthToken(existingUser);
 			cookies.set('token', authToken.id, {secure: false, path: '/', expires:new Date(Date.now() + expirationTime)});
-			console.log('completed');
 			
 			throw redirect(301, redirectionTarget);
 		}

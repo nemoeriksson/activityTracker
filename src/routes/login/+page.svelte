@@ -7,6 +7,7 @@
 	import { page } from "$app/stores";
 
 	export let form;
+	$: errored = form?.errorType ? true : false;
 
 	enum Tabs {
 		LOGIN='Login',
@@ -50,13 +51,16 @@
 			<form action="?/register" method="post" autocomplete="off" use:enhance>
 				<p>Create a new account</p>	
 				<div class="inputField">
-					<input required type="email" id="email" name="email" placeholder="Email"/>
+					<input required type="email" id="email" name="email" placeholder="Email" 
+						class:error={form?.errorType==1 && errored} on:input={()=>{errored=false}}/>
 				</div>
 				<div class="inputField">
-					<input required type="password" id="password-register" name="password" placeholder="Password"/>
+					<input required type="password" id="password-register" name="password" placeholder="Password" 
+						class:error={form?.errorType==2 && errored} on:input={()=>{errored=false}}/>
 				</div>
 				<div class="inputField">
-					<input required type="password" id="password-confirm" name="password-confirm" placeholder="Confirm Password"/>
+					<input required type="password" id="password-confirm" name="password-confirm" placeholder="Confirm Password" 
+						class:error={form?.errorType==2 && errored} on:input={()=>{errored=false}}/>
 				</div>
 				{#if form?.error}
 					<span>{form.error}</span>
