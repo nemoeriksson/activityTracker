@@ -72,12 +72,12 @@
 	<section class="secondary">
 		<div class="text">
 			{#if tab == Tabs.LOGIN}
-				<p class="title">Create Your Account</p>
-				<p class="description">Create an account now and start collect points while training</p>
+				<p class="title">Create an account</p>
+				<p class="description">Create an account now and start collecting points while training</p>
 				<a href="/login?tab=register">Sign Up</a>
 			{:else if tab == Tabs.REGISTER}
-				<p class="title">Sign in to an account</p>
-				<p class="description">Already signed up? Sign in to your account and start collecting points</p>
+				<p class="title">Sign in to your account</p>
+				<p class="description">Already signed up? Sign in to your account and continue collecting points</p>
 				<a href="/login">Sign In</a>
 			{/if}
 		</div>

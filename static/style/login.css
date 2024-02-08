@@ -87,7 +87,7 @@ form button{
     font-weight: 500;
     letter-spacing: .25px;
     cursor: pointer;
-    background: linear-gradient(6deg, var(--main2), var(--main));
+    background: var(--main);
 }
 
 .icons div{
@@ -120,7 +120,7 @@ form button{
 }
 
 .secondary{
-    background: linear-gradient(12deg, var(--main2), var(--main) 45%);
+    background: linear-gradient(12deg, var(--main2), var(--main));
     display: flex;
     flex-direction: column;
     align-items: center;
