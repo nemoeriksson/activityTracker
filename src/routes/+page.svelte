@@ -3,11 +3,10 @@
 </head>
 
 <body>
-    <script src="src\lib\particles.js"></script>
     <script>
-        particlesJS.load('particles-js', '/assets/particles.json', function() {
-            console.log('callback - particles.js config loaded');
-        });
+    particlesJS.load('particles-js', '/assets/particles.json', function() {
+        console.log('callback - particles.js config loaded');
+    });
     </script>
 </body>
 
