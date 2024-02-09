@@ -20,6 +20,8 @@
 
 <main>
 	<section class="formSection">
+		<div class="mobileOnly customBackground"></div>
+		<div class="mobileOnly customBackground"></div>
 		{#if tab == Tabs.LOGIN}
 			<p class="sectionTitle">Sign In</p>
 			<div class="icons">
@@ -40,6 +42,7 @@
 				{/if}
 				<button>Sign In</button>
 			</form>
+			<p class="mobileOnly changeText">Don't have an account? <a href="/login?tab=register">Sign Up</a></p>
 		{/if}
 		{#if tab == Tabs.REGISTER}
 			<p class="sectionTitle">Sign Up</p>
@@ -67,9 +70,10 @@
 				{/if}
 				<button>Sign Up</button>
 			</form>
+			<p class="mobileOnly changeText">Already have an account? <a href="/login">Sign in</a></p>
 		{/if}
 	</section>
-	<section class="secondary">
+	<section class="secondary nonMobile">
 		<div class="text">
 			{#if tab == Tabs.LOGIN}
 				<p class="title">Create an account</p>

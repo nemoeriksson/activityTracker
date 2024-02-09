@@ -34,6 +34,7 @@ nav .links {
     font-size: 1em;
     width: 30%;
     justify-content: space-evenly;
+    align-items: center;
 }
 
 nav .links a,
@@ -46,6 +47,9 @@ nav .links button{
     border: none;
     background: transparent;
     color: var(--white);
+}
+nav .links button{
+    transform: translateY(-1px);
 }
 
 nav .links a::before,
@@ -66,4 +70,14 @@ nav .links button::before{
 nav .links a:hover::before,
 nav .links button:hover::before{
     width: calc(100% + 6px);
+}
+
+@media only screen and (max-width: 600px) and (orientation: portrait){
+    nav{
+        padding: 0 5%;
+    }
+    nav .links{
+        width: 70%;
+        gap: 5px;
+    }
 }

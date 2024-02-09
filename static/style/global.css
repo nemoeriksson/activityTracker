@@ -32,5 +32,18 @@
 }
 
 .hidden{
-    display: none;
+    display: none !important;
+}
+
+.mobileOnly{
+    display: none !important;
+}
+
+@media only screen and (max-width: 600px) and (orientation: portrait){
+    .mobileOnly{
+        display: initial !important;
+    }
+    .nonMobile{
+        display: none !important;
+    }
 }

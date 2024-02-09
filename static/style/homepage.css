@@ -44,3 +44,13 @@ main{
 .highlighted{
     color: var(--highlight-blue);
 }
+
+@media only screen and (max-width: 600px) and (orientation: portrait){
+    .text{
+        width: 85%;
+        top: 45%;
+    }
+    .text .title{
+        font-size: 2em;
+    }
+}

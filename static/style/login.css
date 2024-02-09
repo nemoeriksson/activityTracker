@@ -99,21 +99,21 @@ form button{
 }
 
 .icons .icon-fb{
-    background: url("/svgs/facebook.svg");
+    background: url("/svgs/facebook.svg"), var(--white);
     background-size: 60%;
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
 
 .icons .icon-ig{
-    background: url("/svgs/google.svg");
+    background: url("/svgs/google.svg"), var(--white);
     background-size: 60%;
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
 
 .icons .icon-git{
-    background: url("/svgs/github.svg");
+    background: url("/svgs/github.svg"), var(--white);
     background-size: 60%;
     background-position: 50% 50%;
     background-repeat: no-repeat;
@@ -156,4 +156,62 @@ form button{
     color: var(--white);
     font-weight: 500;
     letter-spacing: .25px;
+}
+
+@media only screen and (max-width: 600px) and (orientation: portrait){
+    main .formSection{
+        width: 100%;
+    }
+
+    .formSection form{
+        width: 70%;
+    }
+
+    form input{
+        font-size: 1.2em;
+    }
+
+    form p{
+        font-size: larger;
+    }
+
+    form button{
+        padding: 12px 72px;
+        font-size: larger;
+    }
+
+    .formSection .customBackground{
+        position: absolute;
+        aspect-ratio: 1;
+        background: var(--main);
+        z-index: -1;
+    }
+
+    .formSection .customBackground:nth-of-type(1){
+        height: 30%;
+        top: 20%;
+        right: -20px;
+        transform: translate(50%, -50%) rotate(45deg);
+        border-bottom-left-radius: 20%;
+    }
+
+    .formSection .customBackground:nth-of-type(2){
+        height: 25%;
+        bottom: 20%;
+        left: -20px;
+        transform: translate(-50%, 50%) rotate(45deg);
+        border-top-right-radius: 20%;
+    }
+
+    .formSection .changeText{
+        color: var(--black);
+        position: absolute;
+        bottom: 20px;
+        font-size: 1em;
+    }
+
+    .formSection .changeText a{
+        color: var(--main);
+        text-decoration: none;
+    }
 }
