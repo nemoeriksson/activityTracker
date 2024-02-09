@@ -111,3 +111,10 @@ export async function getUserByAuthToken(auth_token_id: string) {
 export async function validatePassword(user:any, password:string) {
 	return user.hash == await passwordToHash(password, user.salt);
 }
+
+export async function checkLoggedIn(authToken:string|undefined): Promise<Boolean>{
+	if(!authToken) return false;
+
+	const user = await getUserByAuthToken(authToken);
+	return user ? true : false;
+}
