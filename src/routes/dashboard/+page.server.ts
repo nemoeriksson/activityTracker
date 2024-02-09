@@ -1,6 +1,6 @@
 import { getUserByAuthToken } from '$lib/db';
 import { redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load = (async ({cookies}) => {
 	let token = cookies.get("token");
@@ -13,3 +13,10 @@ export const load = (async ({cookies}) => {
 	}
 	return {username: user.username}
 }) satisfies PageServerLoad;
+
+export const actions: Actions = {
+	logout: async ({cookies})=>{
+		cookies.delete('token', {path: '/'});
+		throw redirect(301, '/');
+	}
+};

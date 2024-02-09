@@ -3,10 +3,15 @@
 </head>
 
 <script lang="ts">
-    export let data;
+    import { enhance } from '$app/forms';
+    import { invalidateAll } from '$app/navigation';
 
+    export let data;
+    export let form;
+
+    $: reload = form?.status;
+    
     let isLoggedIn = data.loggedIn;
-    console.log(isLoggedIn);
 </script>
 
 <body>
@@ -23,9 +28,11 @@
     <section class="links">
         <a href="/leaderboard">Leaderboard</a>
         
-        {#if isLoggedIn}
+        {#if isLoggedIn && !reload}
             <a href="/dashboard">Dashboard</a>
-            <a href="#">Log Out</a> <!-- TODO: Logout logic -->
+            <form action="?/logout" method="post" use:enhance>
+                <button>Log Out</button>
+            </form>
         {:else}
             <a href="/login">Log In</a>
             <a href="/login?tab=register">Register</a>    

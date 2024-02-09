@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { enhance } from "$app/forms";
 	import type {PageData} from "./$types";
 	export let data: PageData;
 </script>
@@ -9,7 +10,9 @@
     <section class="links">
         <a href="/leaderboard">Leaderboard</a>
         <a href="/dashboard">Dashboard</a>
-        <a href="#">Log Out</a> <!-- TODO: Logout logic -->
+        <form action="?/logout" method="post" use:enhance>
+            <button>Log Out</button>
+        </form>
     </section>
 </nav>
 
