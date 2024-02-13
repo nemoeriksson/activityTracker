@@ -3,9 +3,7 @@ import type { PageServerLoad } from './$types';
 
 export const load = (async () => {
 
-    let ranking = [];
+    const users = await prisma.user.findMany();
 
-    let rankers = await prisma.user.findMany({
-    })
-    return {rankers};
+    return {users};
 }) satisfies PageServerLoad;
