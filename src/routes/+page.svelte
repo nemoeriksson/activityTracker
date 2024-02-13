@@ -4,7 +4,6 @@
 
 <script lang="ts">
     import { enhance } from '$app/forms';
-    import { invalidateAll } from '$app/navigation';
 
     export let data;
     export let form;
@@ -31,6 +30,7 @@
         {#if isLoggedIn && !reload}
             <a href="/dashboard">Dashboard</a>
             <form action="?/logout" method="post" use:enhance>
+                <input type="hidden" name="origin" value="/">
                 <button>Log Out</button>
             </form>
         {:else}

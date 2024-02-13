@@ -10,8 +10,14 @@ export const load = (async ({ cookies }) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-    logout: async ({cookies})=>{
+    logout: async ({request, cookies})=>{
+        const data = await request.formData();
+        const isHomepage = data.get('origin')!.toString() == '/';
+        
         cookies.delete('token', {path: '/'});
-        return fail(403, {status: 'reload'});
+        
+        if(isHomepage) return fail(403, {status: 'reload'});
+
+        throw redirect(301, '/');
     }
 };

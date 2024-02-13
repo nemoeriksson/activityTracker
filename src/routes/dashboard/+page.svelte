@@ -4,7 +4,8 @@
     <section class="links">
         <a href="/leaderboard">Leaderboard</a>
         <a href="/dashboard">Dashboard</a>
-        <form action="?/logout" method="post" use:enhance>
+        <form action=".?/logout" method="post" use:enhance>
+			<input type="hidden" name="origin" value="/dashboard">
             <button>Log Out</button>
         </form>
     </section>

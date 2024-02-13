@@ -45,8 +45,4 @@ export const actions: Actions = {
 		};
 		return fail(418, {error: JSON.stringify(returnObject)});
 	},
-	logout: async ({cookies})=>{
-		cookies.delete('token', {path: '/'});
-		throw redirect(301, '/');
-	},
 };
