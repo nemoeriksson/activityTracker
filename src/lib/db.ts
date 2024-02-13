@@ -111,3 +111,27 @@ export async function getUserByAuthToken(auth_token_id: string) {
 export async function validatePassword(user:any, password:string) {
 	return user.hash == await passwordToHash(password, user.salt);
 }
+
+export async function getActivities() {
+	return await prisma.aktivitet.findMany({
+		where: {
+			/*approved: true,*/ // TODO
+		}
+	});
+}
+
+export async function createActivity(name: string, description: string, category: string, theme: string, user: any) {
+	return await prisma.aktivitet.create({
+		data: {
+			name,
+			description,
+			sets: "",
+			reps: "",
+			category,
+			theme,
+			userId: user.id,
+			points: 0,
+			approved: false,
+		},
+	});
+}
