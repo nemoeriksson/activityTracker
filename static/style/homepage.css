@@ -1,3 +1,56 @@
-p{
-    color: blue;
+
+main{
+    background: var(--dark);
+    height: calc(100% - var(--navbar-height));
+    overflow: hidden;
+}
+
+.text{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--white);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+}
+
+.text .title{
+    font-size: 3em;
+    font-weight: 600;
+}
+
+.text .description{
+    font-size: 1em;
+    max-width: 560px;
+    line-height: 20px;
+}
+
+.cta{
+    background: var(--highlight-yellow);
+    padding: 12px 50px;
+    border-radius: 21px;
+    font-size: 1.1em;
+    font-weight: 500;
+    letter-spacing: .25px;
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+.highlighted{
+    color: var(--highlight-blue);
+}
+
+@media only screen and (max-width: 600px) and (orientation: portrait){
+    .text{
+        width: 85%;
+        top: 45%;
+    }
+    .text .title{
+        font-size: 2em;
+    }
 }

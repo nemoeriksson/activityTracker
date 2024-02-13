@@ -5,19 +5,45 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Fira Sans', sans-serif;
+    user-select: none;
 }
 
 :root{
     caret-color: transparent;
-    --white: #F9F7F7;
+
     --black: #3F4756;
     --gray: #999;
     --light-gray: #eee;
-    --main: #1C7293;
-    --main2: #22c1c3;
-    --dark: #112D4E;
+    --white: #F9F7F7;
+    
+    --main: #8039df;
+    --main2: #3e0075;
+    
+    --dark: #1d0254;
+
+    --highlight-blue: #4cfec8;
+    --highlight-yellow: #ffe03f; 
+
+    --navbar-height: 50px;
+}
+
+#site, body, html, main{
+    overflow: hidden;
 }
 
 .hidden{
-    display: none;
+    display: none !important;
+}
+
+.mobileOnly{
+    display: none !important;
+}
+
+@media only screen and (max-width: 600px) and (orientation: portrait){
+    .mobileOnly{
+        display: initial !important;
+    }
+    .nonMobile{
+        display: none !important;
+    }
 }

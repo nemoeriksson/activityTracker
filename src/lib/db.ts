@@ -135,3 +135,10 @@ export async function createActivity(name: string, description: string, category
 		},
 	});
 }
+
+export async function checkLoggedIn(authToken:string|undefined): Promise<Boolean>{
+	if(!authToken) return false;
+
+	const user = await getUserByAuthToken(authToken);
+	return user ? true : false;
+}

@@ -2,7 +2,6 @@ import { getUserByAuthToken, createActivity, getActivities, getUserById } from '
 import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
-
 export const load = (async ({cookies}) => {
 	let token = cookies.get("token");
 	if (!token) {
@@ -46,4 +45,8 @@ export const actions: Actions = {
 		};
 		return fail(418, {error: JSON.stringify(returnObject)});
 	},
-}
+	logout: async ({cookies})=>{
+		cookies.delete('token', {path: '/'});
+		throw redirect(301, '/');
+	},
+};

@@ -1,3 +1,14 @@
+<nav>
+    <a class="title" href="/">OnFit</a>
+    
+    <section class="links">
+        <a href="/leaderboard">Leaderboard</a>
+        <a href="/dashboard">Dashboard</a>
+        <form action="?/logout" method="post" use:enhance>
+            <button>Log Out</button>
+        </form>
+    </section>
+</nav>
 <h1>Hello {data.username} to OnFit</h1>
 <h2>List of aktiviter</h2>
 <div class="restrainingOrder">
