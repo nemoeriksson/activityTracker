@@ -4,8 +4,7 @@ import type { PageServerLoad } from './$types';
 
 interface Ranking {
     username: string,
-    points: number,
-    rank?: number
+    points: number
 }
 
 export const load = (async ({cookies}) => {
@@ -64,8 +63,6 @@ export const load = (async ({cookies}) => {
         if (a.points > b.points) return 1;
         return a.username.localeCompare(b.username);
     });
-    
-    rankings.map((ranking, index)=> {ranking.rank = index+1});
 
     return { loggedIn, rankings };
 }) satisfies PageServerLoad;

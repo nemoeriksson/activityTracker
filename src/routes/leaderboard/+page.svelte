@@ -1,5 +1,10 @@
+<head>
+    <link rel="stylesheet" href="style/leaderboard.css">
+</head>
+
 <script lang="ts">
     import { enhance } from '$app/forms';
+    import { getTier } from '$lib';
     import type { PageData } from './$types';
     
     export let data: PageData;
@@ -28,22 +33,31 @@
 </nav>
 
 <main>
-    <section class="header">
-        <div class="rank left">
-            <p>
-                <span>Rank</span>
-                <span>Name</span>
-                <span>Points</span>
-            </p>
-        </div>
-    </section>
-    <section class="leaderboard">
-        {#each rankings as rank, index}
-            <div class="rank" class:left={index%2} class:right={!(index%2)}>
-                <p>#{rank.rank} {rank.username} {rank.points}</p>
-            </div>
-        {/each}
-    </section>
+    <p class="title">Leaderboard</p>
+    <div class="leaderboardContainer">
+        <table class="header">
+            <tr class="rank">
+                <th>#</th>
+                <th>Name</th>
+                <th>Points</th>
+                <th>Submitted</th>
+                <th>Tier</th>
+            </tr>
+        </table>
+        <section class="leaderboard">
+            <table class="rankTable">
+                {#each rankings as rank, index}
+                    <tr class="rank">
+                        <td>{index+1}</td>
+                        <td>{rank.username}</td>
+                        <td>{rank.points}</td>
+                        <td>-1</td>
+                        <td>{getTier(rank.points)}</td>
+                    </tr>
+                {/each}
+            </table>
+        </section>
+    </div>
 </main>
 
 
