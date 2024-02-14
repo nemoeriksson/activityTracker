@@ -40,7 +40,7 @@
                 <th>#</th>
                 <th>Name</th>
                 <th>Points</th>
-                <th>Submitted</th>
+                <th class="nonMobile">Submitted</th>
                 <th>Tier</th>
             </tr>
         </table>
@@ -48,10 +48,17 @@
             <table class="rankTable">
                 {#each rankings as rank, index}
                     <tr class="rank">
-                        <td>{index+1}</td>
+                        <td>
+                            <span class="rankNumber"
+                            class:leader={index==0}
+                            class:top3={index<2}
+                            class:top10={index<5}>
+                                {index+1}
+                            </span>
+                        </td>
                         <td>{rank.username}</td>
                         <td>{rank.points}</td>
-                        <td>-1</td>
+                        <td class="nonMobile">-1</td>
                         <td>{getTier(rank.points)}</td>
                     </tr>
                 {/each}

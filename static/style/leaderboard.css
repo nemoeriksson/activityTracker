@@ -55,3 +55,41 @@ table{
 .rankTable .rank{
     border-bottom: 2px solid var(--light-gray2);
 }
+
+.rankNumber{
+    width: 36px;
+    display: inline-block;
+    padding: 2px 0;
+    border-radius: 4px;
+    position: relative;
+}
+
+.rankNumber::before{
+    content: '';
+    top: 2px;
+    left: 2px;
+    aspect-ratio: 1;
+    height: 10px;
+    position: absolute;
+    background: url("/svgs/hash.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.rankNumber.top10{
+    background: var(--rank3);
+}
+
+.rankNumber.top3{
+    background: var(--rank2);
+}
+
+.rankNumber.leader{
+    background: var(--rank1);
+}
+
+@media only screen and (max-width: 600px) and (orientation: portrait){
+    .rankNumber::before{
+        content: none;
+    }
+}

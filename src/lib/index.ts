@@ -6,8 +6,8 @@ const tiers = {
     25: 'Interested',
     50: 'Enthusiast',
     100: 'Trained',
-    500: 'PT',
-    1000: 'Professional'
+    250: 'Athlete',
+    500: 'Professional'
 }
 
 export function getTier(points:number){

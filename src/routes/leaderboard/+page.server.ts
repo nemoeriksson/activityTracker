@@ -59,8 +59,8 @@ export const load = (async ({cookies}) => {
     });
 
     rankings.sort((a, b) => {
-        if (a.points < b.points) return -1;
-        if (a.points > b.points) return 1;
+        if (a.points < b.points) return 1;
+        if (a.points > b.points) return -1;
         return a.username.localeCompare(b.username);
     });
 

@@ -20,20 +20,20 @@ export const load = (async ({cookies}) => {
 export const actions: Actions = {
 	register: async({request, cookies}) => {
 		const data = await request.formData();
-		const email = data.get('email')!.toString();
+		const username = data.get('username')!.toString();
 
 		const password = data.get('password')!.toString();
 		const passwordConfirm = data.get('password-confirm')!.toString();
 
-		const existingUser = await getUserByName(email);
+		const existingUser = await getUserByName(username);
 
 		if(existingUser)
-			return fail(403, {error: 'Email already in use', errorType: 1});
+			return fail(403, {error: 'Username taken', errorType: 1});
 
 		else if(password != passwordConfirm)
 			return fail(422, {error: 'Passwords do not match', errorType: 2});
 		
-		const user = await createUser(email, password);
+		const user = await createUser(username, password);
 		const authToken = await createAuthToken(user);
 
 		cookies.set('token', authToken.id, {secure: false, path: '/', expires:new Date(Date.now() + expirationTime)});
@@ -42,10 +42,10 @@ export const actions: Actions = {
 	},
 	login: async({request, cookies}) => {
 		const data = await request.formData();
-		const email = data.get('email')!.toString();
+		const username = data.get('username')!.toString();
 		const password = data.get('password')!.toString();
 
-		const existingUser = await getUserByName(email);
+		const existingUser = await getUserByName(username);
 
 		if(!existingUser)
 			return fail(403, {error: 'Incorrect validation input', errorType: 3});

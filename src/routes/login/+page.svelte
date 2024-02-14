@@ -32,7 +32,7 @@
 			<form action="?/login" method="post" autocomplete="off" use:enhance>
 				<p>Sign in to your account</p>	
 				<div class="inputField">
-					<input required type="email" id="email" name="email" placeholder="Email"/>
+					<input required type="text" id="username" name="username" placeholder="Username"/>
 				</div>
 				<div class="inputField">
 					<input required type="password" id="password-login" name="password" placeholder="Password"/>
@@ -54,7 +54,7 @@
 			<form action="?/register" method="post" autocomplete="off" use:enhance>
 				<p>Create a new account</p>	
 				<div class="inputField">
-					<input required type="email" id="email" name="email" placeholder="Email" 
+					<input required type="text" id="username" name="username" placeholder="Username" 
 						class:error={form?.errorType==1 && errored} on:input={()=>{errored=false}}/>
 				</div>
 				<div class="inputField">
