@@ -1,6 +1,7 @@
 import { getUserByAuthToken, createActivity, getActivities, getUserById } from '$lib/db';
 import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
+import { prisma } from '$lib';
 
 export const load = (async ({cookies}) => {
 	let token = cookies.get("token");
@@ -11,12 +12,7 @@ export const load = (async ({cookies}) => {
 	if (!user) {
 		throw redirect(303, "/login");
 	}
-	let activites = await Promise.all((await getActivities()).map(async (input) => {
-		let object: any = input;
-		let user = await getUserById(input.userId);
-		object.creatorName = user ? user.username : "[deleted]";
-		return object;
-	}));
+	let activites = await getActivities();
 	return {username: user.username, activites}
 }) satisfies PageServerLoad;
 

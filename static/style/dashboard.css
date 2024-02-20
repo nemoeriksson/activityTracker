@@ -1,25 +1,24 @@
 
 ::-webkit-scrollbar{
-    display: none;
+    width: 3px;
+}
+
+::-webkit-scrollbar-track-piece{
+    background: var(--light-gray2);
 }
 
 main{
     height: calc(100% - var(--navbar-height));
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
 }
 
 .achievements{
-    grid-area: 1 / 1 / 2 / 4;
+    margin-top: 3%;
+    height: max-content;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     gap: 20px;
-    overflow-x: scroll;
-    padding: 0 40px;
+    flex-wrap: wrap;
 }
 
 .achievements .statContainer{
@@ -124,8 +123,104 @@ main{
     height: 24px;
 }
 
-@media only screen and (max-width: 1072px){
-    .achievements{
-        justify-content: flex-start;
+.activityListContainer{
+    margin: 24px 0 0 3%;
+    width: 45%;
+    border: 2px solid var(--light-gray2);
+    border-radius: 4px;
+}
+
+table{
+    height: fit-content;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+table .header{
+    background: var(--light-gray2);
+    height: 40px;
+}
+
+table .activity{
+    height: 40px;
+    background: var(--white);
+    text-align: center;
+}
+
+.activities{
+    background: url("/svgs/leaderboard.svg");
+    background-position-x: 50%;
+    height: 450px;
+    overflow-y: scroll;
+}
+
+td span{
+    text-decoration: none;
+    color: var(--white);
+    cursor: pointer;
+    display: inline-block;
+    padding: 3px 8px;
+    background: var(--main);
+    border-radius: 4px;
+}
+
+.activity ~ section.description{
+    width: 400%;
+    max-height: 0;
+    overflow: hidden;
+    background: var(--white);
+    transition: 250ms all;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    align-items: center;
+    justify-items: center;
+    border-bottom: 2px solid var(--light-gray2);
+}
+
+.activity ~ section.description.viewed{
+    max-height: 140px;
+}
+
+section.description .details{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    width: 100%;
+    align-items: center;
+    justify-items: center;
+}
+
+section.description span{
+    padding: 4px 10px;
+} 
+
+@media only screen and (max-width: 600px) and (orientation: portrait){
+    .achievements .statContainer{
+        width: 40%;
+        aspect-ratio: 4 / 3;
+        min-width: 0;
+    }
+    .statContainer:nth-of-type(1){
+        background: url("/images/barChart1.png"), linear-gradient(to right, #ff8b59, #ffb696);
+    } 
+    .statContainer:nth-of-type(2){
+        background: url("/images/barChart2.png"), linear-gradient(to right, #08c382, #0df4a0);
+    } 
+    .statContainer:nth-of-type(3){
+        background: url("/images/barChart3.png"), linear-gradient(to right, #fb5d72, #f88f9f);
+    }
+    .statContainer:nth-of-type(4){
+        background: url("/images/barChart4.png"), linear-gradient(to right, #00adaa, #00dade);
+    }
+    .achievements .statContainer{
+        background-repeat: no-repeat;
+        background-position: 85% 85%;
+    }
+
+    .activityListContainer{
+        width: 90%;
+        margin-left: 5%;
     }
 }

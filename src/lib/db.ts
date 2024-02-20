@@ -115,7 +115,7 @@ export async function validatePassword(user:any, password:string) {
 export async function getActivities() {
 	return await prisma.aktivitet.findMany({
 		where: {
-			/*approved: true,*/ // TODO
+			approved: true
 		}
 	});
 }
@@ -125,10 +125,9 @@ export async function createActivity(name: string, description: string, category
 		data: {
 			name,
 			description,
-			sets: "",
-			reps: "",
+			sets: 0,
+			reps: 0,
 			category,
-			theme,
 			userId: user.id,
 			points: 0,
 			approved: false,

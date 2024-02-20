@@ -13,22 +13,23 @@
 		{
 			"title": "Completed Activities",
 			"value": 21,
-			"updated": "14:20 [PLACEHOLDER]"
+			"updated": "14:20"
 		},{
 			"title": "Submitted Activities",
 			"value": 2,
-			"updated": "14:20 [PLACEHOLDER]"
+			"updated": "14:20"
 		},{
 			"title": "Total Points",
 			"value": 150,
-			"updated": "14:20 [PLACEHOLDER]"
+			"updated": "14:20"
 		},{
 			"title": "Tier",
 			"value": "Beginner",
-			"updated": "14:20 [PLACEHOLDER]"
+			"updated": "14:20"
 		},
 	];
 
+	let viewed = -1;
 	// might be filtered
 	let activities = data.activites;
 
@@ -64,6 +65,15 @@
 	function activateActivityCreatePanel() {
 		showActivityCreatePanel = true;
 	}
+
+	function toggleView(target:number){
+		if(viewed == target){
+			viewed = -1;
+		} 
+		else{
+			viewed = target
+		}
+	}
 </script>
 
 <nav>
@@ -88,9 +98,9 @@
 						<p class="value">{stat.value}</p>
 						<p class="title">{stat.title}</p>
 					</div>
-					<span class="statIcon"></span>
+					<span class="statIcon nonMobile"></span>
 				</div>
-				<div class="footer">
+				<div class="footer nonMobile">
 					<hr>
 					<p class="updated">
 						<span class="clockIcon"></span>
@@ -102,7 +112,40 @@
 	</section>
 	
 	<section class="activityListContainer">
-
+		<table>
+			<tr class="header">
+				<th>Title</th>
+				<th>Category</th>
+				<th>Points</th>
+				<th>Details</th>
+			</tr>
+		</table>
+		<div class="activities">
+			<table>
+				{#each activities as activity, i}
+					<tr class="activity">
+						<td>{activity.name}</td>
+						<td>{activity.category}</td>
+						<td>{activity.points}</td>
+						<td><span on:click={()=>{toggleView(i)}}>View</span></td>
+					</tr>
+					<section class="description"
+						class:viewed={viewed==i}>
+						{#if activity.description}
+							<span>{activity.description}</span>
+						{/if}
+						<div class="details">
+							{#if activity.reps}
+								<p>Reps: {activity.reps}</p>
+							{/if}
+							{#if activity.sets}
+								<p>Sets: {activity.sets}</p>
+							{/if}
+						</div>
+					</section>
+				{/each}
+			</table>
+		</div>
 	</section>
 	
 	<section class="graphContainer">
