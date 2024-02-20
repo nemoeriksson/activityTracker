@@ -86,6 +86,7 @@
 			<input type="hidden" name="origin" value="/dashboard">
             <button>Log Out</button>
         </form>
+        <a href="/submissions">Submissions</a>
     </section>
 </nav>
 
@@ -152,36 +153,3 @@
 
 	</section>
 </main>
-
-<!--
-<h1>Hello {data.username} to OnFit</h1>
-<h2>List of aktiviter</h2>
-<div class="restrainingOrder">
-	<div class="activityContainer">
-		<button on:click={activateActivityCreatePanel}>Create new activity</button>
-		{#each activities as activity}
-			<div class="activity">
-				<p>name: {activity.name}</p>
-				<p>description: {activity.description}</p>
-				<p>category: {activity.category}</p>
-				<p>theme: {activity.theme}</p>
-				<p>createdBy: {activity.creatorName}</p>
-				<p>points: {activity.points}</p>
-			</div>
-		{/each}
-	</div>
-</div>
-
-{#if showActivityCreatePanel}
-	<div class="jumpscare" bind:this={activityCreateDiv}>
-		<h2>Activity creation form</h2>
-		<form action="?/createActivity" method="POST" autocomplete="off" id="createActivityForm" use:enhance>
-			<input required type="text" name="name" placeholder="Name"/>
-			<br>
-			<textarea rows="4" cols="50" name="description" placeholder="description" form="createActivityForm"></textarea>
-			<br>
-			<button on:click={sendCreateActivity}>Send activity to admin</button>
-		</form>
-	</div>
-{/if}
--->
