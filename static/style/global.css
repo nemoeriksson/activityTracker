@@ -46,6 +46,9 @@
 }
 
 @media only screen and (max-width: 600px) and (orientation: portrait){
+    :root{
+        --navbar-height: 60px;
+    }
     .mobileOnly{
         display: initial !important;
     }

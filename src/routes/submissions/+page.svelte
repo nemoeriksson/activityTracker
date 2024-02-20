@@ -12,7 +12,6 @@
                 <input type="hidden" name="origin" value="/">
                 <button>Log Out</button>
             </form>
-            <a href="/submissions">Submissions</a>
     </section>
 </nav>
 

@@ -5,32 +5,45 @@
 <script lang="ts">
     import { enhance } from "$app/forms";
 	import type {PageData} from "./$types";
-	import {onMount} from "svelte";
 	import {deserialize} from "$app/forms";
+    import { onMount } from "svelte";
+    import { generateRadarChart } from "$lib/db";
 	export let data: PageData;
 
+	let radarChartElement:HTMLCanvasElement;
+	let ctx:CanvasRenderingContext2D|null;
+
+	onMount(async ()=>{
+		ctx = radarChartElement.getContext('2d'); 
+		if(ctx){
+			await generateRadarChart(data.username, ctx);
+		}
+	});
+ 
+	const now = new Date;
+	const time = `${now.getHours()}:${now.getMinutes()}`;
+	
 	const stats = [
 		{
 			"title": "Completed Activities",
 			"value": 21,
-			"updated": "14:20"
-		},{
+			"updated": time
+		}, {
 			"title": "Submitted Activities",
 			"value": 2,
-			"updated": "14:20"
-		},{
+			"updated": time
+		}, {
 			"title": "Total Points",
 			"value": 150,
-			"updated": "14:20"
-		},{
+			"updated": time
+		}, {
 			"title": "Tier",
 			"value": "Beginner",
-			"updated": "14:20"
+			"updated": time
 		},
 	];
 
 	let viewed = -1;
-	// might be filtered
 	let activities = data.activites;
 
 	let showActivityCreatePanel = false;
@@ -41,7 +54,6 @@
 		const formData = new FormData(e.srcElement.form);
 		console.log(formData);
 		
-		// EPIC CODE!
 		try {
 			const response = await fetch("?/createActivity", {
 				method: "POST",
@@ -81,12 +93,11 @@
     
     <section class="links">
         <a href="/leaderboard">Leaderboard</a>
-        <a href="/dashboard">Dashboard</a>
+        <a href="/submissions">Submissions</a>
         <form action=".?/logout" method="post" use:enhance>
 			<input type="hidden" name="origin" value="/dashboard">
             <button>Log Out</button>
         </form>
-        <a href="/submissions">Submissions</a>
     </section>
 </nav>
 
@@ -112,44 +123,48 @@
 		{/each}
 	</section>
 	
-	<section class="activityListContainer">
-		<table>
-			<tr class="header">
-				<th>Title</th>
-				<th>Category</th>
-				<th>Points</th>
-				<th>Details</th>
-			</tr>
-		</table>
-		<div class="activities">
+	<div class="boxContainer">
+		<section class="activityListContainer">
 			<table>
-				{#each activities as activity, i}
-					<tr class="activity">
-						<td>{activity.name}</td>
-						<td>{activity.category}</td>
-						<td>{activity.points}</td>
-						<td><span on:click={()=>{toggleView(i)}}>View</span></td>
-					</tr>
-					<section class="description"
-						class:viewed={viewed==i}>
-						{#if activity.description}
-							<span>{activity.description}</span>
-						{/if}
-						<div class="details">
-							{#if activity.reps}
-								<p>Reps: {activity.reps}</p>
-							{/if}
-							{#if activity.sets}
-								<p>Sets: {activity.sets}</p>
-							{/if}
-						</div>
-					</section>
-				{/each}
+				<tr class="header">
+					<th>Title</th>
+					<th>Category</th>
+					<th>Points</th>
+					<th>Details</th>
+				</tr>
 			</table>
-		</div>
-	</section>
+			<div class="activities">
+				<table>
+					{#each activities as activity, i}
+						<tr class="activity">
+							<td>{activity.name}</td>
+							<td>{activity.category}</td>
+							<td>{activity.points}</td>
+							<td><span on:click={()=>{toggleView(i)}}>View</span></td>
+						</tr>
+						<section class="description"
+							class:viewed={viewed==i}>
+							{#if activity.description}
+								<span>{activity.description}</span>
+							{/if}
+							<div class="details">
+								{#if activity.reps}
+									<p>Reps: {activity.reps}</p>
+								{/if}
+								{#if activity.sets}
+									<p>Sets: {activity.sets}</p>
+								{/if}
+							</div>
+						</section>
+					{/each}
+				</table>
+			</div>
+		</section>
 	
-	<section class="graphContainer">
-
-	</section>
+		<section class="graphContainer nonMobile">
+			<div class="canvasContainer">
+				<canvas bind:this={radarChartElement}></canvas>
+			</div>
+		</section>
+	</div>
 </main>

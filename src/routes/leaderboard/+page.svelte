@@ -25,7 +25,6 @@
                 <input type="hidden" name="origin" value="/leaderboard">
                 <button>Log Out</button>
             </form>
-			<a href="/submissions">Submissions</a>
         {:else}
             <a href="/login">Log In</a>
             <a href="/login?tab=register">Register</a>    
