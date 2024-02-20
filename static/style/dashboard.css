@@ -1,0 +1,131 @@
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+main{
+    height: calc(100% - var(--navbar-height));
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.achievements{
+    grid-area: 1 / 1 / 2 / 4;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+    overflow-x: scroll;
+    padding: 0 40px;
+}
+
+.achievements .statContainer{
+    width: 20%;
+    min-width: 250px;
+    aspect-ratio: 25 / 10;
+    background: linear-gradient(to right, #ff8b59, #ffb696);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 6px;
+    color: var(--white);
+}
+
+.statContainer:nth-of-type(1) .statIcon{
+    background: url("/images/barChart1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.statContainer:nth-of-type(2){
+    background: linear-gradient(to right, #08c382, #0df4a0);
+} 
+.statContainer:nth-of-type(2) .statIcon{
+    background: url("/images/barChart2.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.statContainer:nth-of-type(3){
+    background: linear-gradient(to right, #fb5d72, #f88f9f);
+}
+.statContainer:nth-of-type(3) .statIcon{
+    background: url("/images/barChart3.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.statContainer:nth-of-type(4){
+    background: linear-gradient(to right, #00adaa, #00dade);
+}
+.statContainer:nth-of-type(4) .statIcon{
+    background: url("/images/barChart4.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.statContainer .stat{
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat .value{
+    font-size: 1.4em;
+    margin: 4px 0;
+}
+
+.stat .title{
+    font-size: 1em;
+}
+
+.stat .statIcon{
+    display: inline-block;
+    height: 30px;
+    aspect-ratio: 2 / 1;
+}
+
+.statContainer .footer{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.statContainer .footer hr{
+    width: 100%;
+    outline: none;
+    border: none;
+    background: var(--white);
+    height: 1px;
+}
+
+.updated{
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+}
+
+.updated .clockIcon{
+    display: inline-block;
+    background: url("/svgs/clock.svg");
+    background-size: 80%;
+    background-repeat: no-repeat;
+    aspect-ratio: 1;
+    height: 24px;
+
+}
+
+.footer .date{
+    display: inline-block;
+    height: 24px;
+}
+
+@media only screen and (max-width: 1072px){
+    .achievements{
+        justify-content: flex-start;
+    }
+}

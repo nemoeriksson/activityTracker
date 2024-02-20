@@ -1,6 +1,10 @@
 
+nav{
+    background: var(--main2);
+}
+
 main{
-    background: var(--dark);
+    background: var(--main2);
     height: calc(100% - var(--navbar-height));
     overflow: hidden;
 }

@@ -1,45 +1,6 @@
-<nav>
-    <a class="title" href="/">OnFit</a>
-    
-    <section class="links">
-        <a href="/leaderboard">Leaderboard</a>
-        <a href="/dashboard">Dashboard</a>
-        <form action=".?/logout" method="post" use:enhance>
-			<input type="hidden" name="origin" value="/dashboard">
-            <button>Log Out</button>
-        </form>
-    </section>
-</nav>
-<h1>Hello {data.username} to OnFit</h1>
-<h2>List of aktiviter</h2>
-<div class="restrainingOrder">
-	<div class="activityContainer">
-		<button on:click={activateActivityCreatePanel}>Create new activity</button>
-		{#each activities as activity}
-			<div class="activity">
-				<p>name: {activity.name}</p>
-				<p>description: {activity.description}</p>
-				<p>category: {activity.category}</p>
-				<p>theme: {activity.theme}</p>
-				<p>createdBy: {activity.creatorName}</p>
-				<p>points: {activity.points}</p>
-			</div>
-		{/each}
-	</div>
-</div>
-
-{#if showActivityCreatePanel}
-	<div class="jumpscare" bind:this={activityCreateDiv}>
-		<h2>Activity creation form</h2>
-		<form action="?/createActivity" method="POST" autocomplete="off" id="createActivityForm" use:enhance>
-			<input required type="text" name="name" placeholder="Name"/>
-			<br>
-			<textarea rows="4" cols="50" name="description" placeholder="description" form="createActivityForm"></textarea>
-			<br>
-			<button on:click={sendCreateActivity}>Send activity to admin</button>
-		</form>
-	</div>
-{/if}
+<head>
+	<link rel="stylesheet" href="style/dashboard.css">
+</head>
 
 <script lang="ts">
     import { enhance } from "$app/forms";
@@ -47,6 +8,26 @@
 	import {onMount} from "svelte";
 	import {deserialize} from "$app/forms";
 	export let data: PageData;
+
+	const stats = [
+		{
+			"title": "Completed Activities",
+			"value": 21,
+			"updated": "14:20 [PLACEHOLDER]"
+		},{
+			"title": "Submitted Activities",
+			"value": 2,
+			"updated": "14:20 [PLACEHOLDER]"
+		},{
+			"title": "Total Points",
+			"value": 150,
+			"updated": "14:20 [PLACEHOLDER]"
+		},{
+			"title": "Tier",
+			"value": "Beginner",
+			"updated": "14:20 [PLACEHOLDER]"
+		},
+	];
 
 	// might be filtered
 	let activities = data.activites;
@@ -83,34 +64,81 @@
 	function activateActivityCreatePanel() {
 		showActivityCreatePanel = true;
 	}
-
-	onMount(async () => {
-	});
 </script>
 
-<style>
-	.restrainingOrder {
-		width: 100vw;
-	}
-	.activityContainer {
-		display: flex;
-		flex-direction: row;
-		gap: 10px;
-		max-width: 100vw;
-		width: 100vw;
-		flex-wrap: wrap;
-	}
-	.activity {
-		padding: 20px;
-		background-color: red;
-	}
-	.jumpscare {
-		position: fixed;
-		left: 50vw;
-		top: 50vh;
-		transform: translate(-50%, -50%);
-		background-color: red;
-		opacity: 85%;
-		padding: 20px;
-	}
-</style>
+<nav>
+    <a class="title" href="/">OnFit</a>
+    
+    <section class="links">
+        <a href="/leaderboard">Leaderboard</a>
+        <a href="/dashboard">Dashboard</a>
+        <form action=".?/logout" method="post" use:enhance>
+			<input type="hidden" name="origin" value="/dashboard">
+            <button>Log Out</button>
+        </form>
+    </section>
+</nav>
+
+<main>
+	<section class="achievements">
+		{#each stats as stat}
+			<div class="statContainer">
+				<div class="stat">
+					<div>
+						<p class="value">{stat.value}</p>
+						<p class="title">{stat.title}</p>
+					</div>
+					<span class="statIcon"></span>
+				</div>
+				<div class="footer">
+					<hr>
+					<p class="updated">
+						<span class="clockIcon"></span>
+						<span class="date">Updated {stat.updated}</span>
+					</p>
+				</div>
+			</div>
+		{/each}
+	</section>
+	
+	<section class="activityListContainer">
+
+	</section>
+	
+	<section class="graphContainer">
+
+	</section>
+</main>
+
+<!--
+<h1>Hello {data.username} to OnFit</h1>
+<h2>List of aktiviter</h2>
+<div class="restrainingOrder">
+	<div class="activityContainer">
+		<button on:click={activateActivityCreatePanel}>Create new activity</button>
+		{#each activities as activity}
+			<div class="activity">
+				<p>name: {activity.name}</p>
+				<p>description: {activity.description}</p>
+				<p>category: {activity.category}</p>
+				<p>theme: {activity.theme}</p>
+				<p>createdBy: {activity.creatorName}</p>
+				<p>points: {activity.points}</p>
+			</div>
+		{/each}
+	</div>
+</div>
+
+{#if showActivityCreatePanel}
+	<div class="jumpscare" bind:this={activityCreateDiv}>
+		<h2>Activity creation form</h2>
+		<form action="?/createActivity" method="POST" autocomplete="off" id="createActivityForm" use:enhance>
+			<input required type="text" name="name" placeholder="Name"/>
+			<br>
+			<textarea rows="4" cols="50" name="description" placeholder="description" form="createActivityForm"></textarea>
+			<br>
+			<button on:click={sendCreateActivity}>Send activity to admin</button>
+		</form>
+	</div>
+{/if}
+-->

@@ -62,6 +62,16 @@
                         <td>{getTier(rank.points)}</td>
                     </tr>
                 {/each}
+                {#if !rankings.length}
+                    <tr class="rank"> 
+                        <td>
+                            No users have joined yet - 
+                            <a href="/login?tab=register">
+                                Be the first!
+                            </a> 
+                        </td>
+                    </tr>
+                {/if}
             </table>
         </section>
     </div>
