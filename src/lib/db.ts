@@ -121,6 +121,32 @@ export async function getActivities() {
 	});
 }
 
+export async function completeActivity(activityId: number, username: string){
+	const user = await prisma.user.findUnique({
+		where: {
+			username: username
+		}
+	})
+
+	if(user){
+		const existingPerformance = await prisma.performance.findFirst({
+			where: {
+				aktivitetId: activityId,
+				userId: user.id
+			}
+		});
+		
+		if(!existingPerformance){
+			await prisma.performance.create({
+				data: {
+					aktivitetId: activityId,
+					userId: user.id
+				}
+			});
+		}
+	}
+}
+
 export async function createActivity(name: string, description: string, category: string, theme: string, user: any) {
 	return await prisma.aktivitet.create({
 		data: {

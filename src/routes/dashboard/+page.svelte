@@ -140,7 +140,9 @@
 							<td>{activity.name}</td>
 							<td>{activity.category}</td>
 							<td>{activity.points}</td>
-							<td><span on:click={()=>{toggleView(i)}}>View</span></td>
+							<td>
+								<span on:click={()=>{toggleView(i)}}>{viewed==i ? 'Hide' : 'View'}</span>
+							</td>
 						</tr>
 						<section class="description"
 							class:viewed={viewed==i}>
@@ -154,6 +156,14 @@
 								{#if activity.sets}
 									<p>Sets: {activity.sets}</p>
 								{/if}
+							</div>
+							<span></span>
+							<div class="options">
+								<form action="?/complete" method="post" use:enhance>
+									<input type="hidden" name="activityId" value={activity.id}>
+									<input type="hidden" name="username" value={data.username}>
+									<button>Mark Completed</button>
+								</form>
 							</div>
 						</section>
 					{/each}
