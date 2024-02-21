@@ -12,7 +12,7 @@ export const load = (async ({cookies}) => {
 	if (!user) {
 		throw redirect(303, "/login");
 	}
-	let sub = findSubmissions(user.username)
+	let sub = await findSubmissions(user.username)
 	let activites = await getActivities();
 	return {username: user.username, point: user.points, submited: sub, activites}
 }) satisfies PageServerLoad;

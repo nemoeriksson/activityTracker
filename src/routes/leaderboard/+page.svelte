@@ -9,6 +9,7 @@
     
     export let data: PageData;
 
+
     const rankings = data.rankings;
     const isLoggedIn = data.loggedIn;
 </script>
@@ -58,7 +59,7 @@
                         </td>
                         <td>{rank.username}</td>
                         <td>{rank.points}</td>
-                        <td class="nonMobile">-1</td>
+                        <td class="nonMobile">{rank.submissions}</td>
                         <td>{getTier(rank.points)}</td>
                     </tr>
                 {/each}

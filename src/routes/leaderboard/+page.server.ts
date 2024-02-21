@@ -1,10 +1,11 @@
 import { prisma } from '$lib';
-import { checkLoggedIn } from '$lib/db';
+import { checkLoggedIn, findSubmissions } from '$lib/db';
 import type { PageServerLoad } from './$types';
 
 interface Ranking {
     username: string,
-    points: number
+    points: number,
+    submissions: number,
 }
 
 export const load = (async ({cookies}) => {
@@ -30,7 +31,7 @@ export const load = (async ({cookies}) => {
     });
 
     let cIndex = 0;
-    performances?.forEach(performance => {
+    performances?.forEach(async performance => {
         let points = performance.aktivitet.points;
         const username = performance.user.username;
 
@@ -40,21 +41,24 @@ export const load = (async ({cookies}) => {
             rankedUsers.set(username, ++cIndex); 
             rankings.push({
                 username: username,
-                points: points
+                points: points,
+                submissions: await findSubmissions(username)
             });
         } else {
             points = rankings[rankIndex].points + points;
             rankings[rankIndex] = {
                 username: username,
-                points: points
+                points: points,
+                submissions: await findSubmissions(username)
             } 
         }
     });
 
-    unrankedUsers.forEach(user => {
+    unrankedUsers.forEach(async user => {
         rankings.push({
             username: user.username,
-            points: 0
+            points: 0,
+            submissions: await findSubmissions(user.username),
         });
     });
 
