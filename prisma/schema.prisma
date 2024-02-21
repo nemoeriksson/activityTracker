@@ -19,7 +19,6 @@ model User {
   createdAktivitet Aktivitet[]
   reviews          Review[]
   performances     Performance[]
-  points           Int            @default(0)
   admin            Boolean        @default(false)
 }
 

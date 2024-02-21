@@ -21,6 +21,46 @@ export async function getUserById(id: number) {
 	});
 	return user;
 }
+export async function findSubmissions(username:string) {
+	const data = await prisma.user.findUnique({
+		where: {
+			username: username
+		},
+		include: {
+			createdAktivitet: {
+				where: {
+					approved: true
+				}
+			}
+		}
+	});
+	if(data)
+		return data.createdAktivitet.length;
+	
+	throw new Error("ERROR: Activities not found");
+	
+}
+	
+export async function findFinished(userId:number) {
+	const data = await prisma.performance.findMany({
+		where:{
+			userId:userId
+		},
+	})
+	if(data){
+		return data.length
+	} 
+	throw new Error("ERROR: Performances not found");
+}
+
+export async function getPoints(userId:number){
+	const data = await prisma.aktivitet.findMany({
+		where: {
+			userId: userId
+		}
+	});
+	return data.map(val => val.points).reduce((s, c) => s+c, 0);
+}
 
 // https://developer.mozilla.org/en-US/docs/Glossary/Base64
 function bytesToBase64(bytes: Uint8Array) {

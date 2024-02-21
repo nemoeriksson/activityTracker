@@ -1,10 +1,11 @@
 import { prisma } from '$lib';
-import { checkLoggedIn } from '$lib/db';
+import { checkLoggedIn, findSubmissions } from '$lib/db';
 import type { PageServerLoad } from './$types';
 
 interface Ranking {
     username: string,
-    points: number
+    points: number,
+    submissions: number,
 }
 
 export const load = (async ({cookies}) => {
@@ -19,7 +20,7 @@ export const load = (async ({cookies}) => {
             performances: {
                 none: {}
             }
-        }
+        },
     });
 
     const performances = await prisma.performance.findMany({
@@ -29,8 +30,17 @@ export const load = (async ({cookies}) => {
         }
     });
 
+    const submissions = await prisma.aktivitet.findMany({
+        where: {
+            approved: true
+        },
+        include: {
+            creator: true
+        }
+    });
+
     let cIndex = 0;
-    performances?.forEach(performance => {
+    performances?.forEach(async performance => {
         let points = performance.aktivitet.points;
         const username = performance.user.username;
 
@@ -40,21 +50,24 @@ export const load = (async ({cookies}) => {
             rankedUsers.set(username, ++cIndex); 
             rankings.push({
                 username: username,
-                points: points
+                points: points,
+                submissions: 0
             });
         } else {
             points = rankings[rankIndex].points + points;
             rankings[rankIndex] = {
                 username: username,
-                points: points
+                points: points,
+                submissions: 0
             } 
         }
     });
 
-    unrankedUsers.forEach(user => {
+    unrankedUsers.forEach(async user => {
         rankings.push({
             username: user.username,
-            points: 0
+            points: 0,
+            submissions: 0
         });
     });
 
@@ -64,5 +77,13 @@ export const load = (async ({cookies}) => {
         return a.username.localeCompare(b.username);
     });
 
+    if(submissions){
+        submissions.forEach(submission => {
+            let rankIndex:number|undefined = rankedUsers.get(submission.creator.username);
+            if(rankIndex)
+                rankings[rankIndex-1].submissions += 1;
+        });
+    }
+    
     return { loggedIn, rankings };
 }) satisfies PageServerLoad;
