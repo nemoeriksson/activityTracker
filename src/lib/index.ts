@@ -19,3 +19,4 @@ export function getTier(points:number){
     });
     return result;
 }
+

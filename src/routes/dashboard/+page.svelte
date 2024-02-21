@@ -8,6 +8,7 @@
 	import {deserialize} from "$app/forms";
     import { onMount } from "svelte";
     import { generateRadarChart } from "$lib/db";
+    import { getTier } from "$lib/index";
 	export let data: PageData;
 
 	let radarChartElement:HTMLCanvasElement;
@@ -22,6 +23,8 @@
  
 	const now = new Date;
 	const time = `${now.getHours()}:${now.getMinutes()}`;
+
+	let tier = getTier( data.point);
 	
 	const stats = [
 		{
@@ -30,15 +33,15 @@
 			"updated": time
 		}, {
 			"title": "Submitted Activities",
-			"value": 2,
+			"value": data.submited,
 			"updated": time
 		}, {
 			"title": "Total Points",
-			"value": 150,
+			"value": data.point,
 			"updated": time
 		}, {
 			"title": "Tier",
-			"value": "Beginner",
+			"value": tier,
 			"updated": time
 		},
 	];
