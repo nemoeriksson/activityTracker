@@ -29,7 +29,7 @@
 	const stats = [
 		{
 			"title": "Completed Activities",
-			"value": 21,
+			"value": data.finished,
 			"updated": time
 		}, {
 			"title": "Submitted Activities",

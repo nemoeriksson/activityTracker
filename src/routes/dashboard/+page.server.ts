@@ -1,4 +1,4 @@
-import { getUserByAuthToken, getActivities, completeActivity, findSubmissions, getPoints } from '$lib/db';
+import { getUserByAuthToken, getActivities, completeActivity, findSubmissions, getPoints, findFinished } from '$lib/db';
 import { redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
@@ -12,9 +12,10 @@ export const load = (async ({cookies}) => {
 		throw redirect(303, "/login");
 	}
 	const submissionCount = await findSubmissions(user.username)
+	const finishedActivities = await findFinished(user.id)
 	const activites = await getActivities();
 	const points = await getPoints(user.id);
-	return {username: user.username, points: points, submitted: submissionCount, activites}
+	return {username: user.username, points: points, submitted: submissionCount,finished: finishedActivities, activites}
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
