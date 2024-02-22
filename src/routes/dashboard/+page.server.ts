@@ -11,6 +11,6 @@ export const load = (async ({cookies}) => {
 	if (!user) {
 		throw redirect(303, "/login");
 	}
-	let activites = await getActivities();
+	let activites = await getActivities(true);
 	return {username: user.username, activites}
 }) satisfies PageServerLoad;
