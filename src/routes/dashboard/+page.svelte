@@ -8,6 +8,7 @@
 	import {deserialize} from "$app/forms";
     import { onMount } from "svelte";
     import { generateRadarChart } from "$lib/db";
+    import { getTier } from "$lib/index";
 	export let data: PageData;
 
 	let radarChartElement:HTMLCanvasElement;
@@ -22,6 +23,8 @@
  
 	const now = new Date;
 	const time = `${now.getHours()}:${now.getMinutes()}`;
+
+	let tier = getTier( data.points );
 	
 	const stats = [
 		{
@@ -30,15 +33,15 @@
 			"updated": time
 		}, {
 			"title": "Submitted Activities",
-			"value": 2,
+			"value": data.submitted,
 			"updated": time
 		}, {
 			"title": "Total Points",
-			"value": 150,
+			"value": data.points,
 			"updated": time
 		}, {
 			"title": "Tier",
-			"value": "Beginner",
+			"value": tier,
 			"updated": time
 		},
 	];
@@ -139,7 +142,9 @@
 							<td>{activity.name}</td>
 							<td>{activity.category}</td>
 							<td>{activity.points}</td>
-							<td><span on:click={()=>{toggleView(i)}}>View</span></td>
+							<td>
+								<span on:click={()=>{toggleView(i)}}>{viewed==i ? 'Hide' : 'View'}</span>
+							</td>
 						</tr>
 						<section class="description"
 							class:viewed={viewed==i}>
@@ -153,6 +158,14 @@
 								{#if activity.sets}
 									<p>Sets: {activity.sets}</p>
 								{/if}
+							</div>
+							<span></span>
+							<div class="options">
+								<form action="?/complete" method="post" use:enhance>
+									<input type="hidden" name="activityId" value={activity.id}>
+									<input type="hidden" name="username" value={data.username}>
+									<button>Mark Completed</button>
+								</form>
 							</div>
 						</section>
 					{/each}

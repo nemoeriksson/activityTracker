@@ -162,7 +162,8 @@ table .activity{
     overflow-y: scroll;
 }
 
-td span{
+td span,
+.options form button{
     text-decoration: none;
     color: var(--white);
     cursor: pointer;
@@ -170,6 +171,9 @@ td span{
     padding: 3px 8px;
     background: var(--main);
     border-radius: 4px;
+    outline: none;
+    border: none;
+    font-size: 1em;
 }
 
 .activity ~ section.description{
@@ -203,6 +207,14 @@ section.description span{
     padding: 4px 10px;
 } 
 
+section.description .options{
+    padding: 4px 10px;
+}
+
+section.description .options span{
+    
+}
+
 .graphContainer{
     width: 45%;
     position: relative;
@@ -220,22 +232,6 @@ section.description span{
         width: 40%;
         aspect-ratio: 3 / 2;
         min-width: 0;
-    }
-    .statContainer:nth-of-type(1){
-        background: url("/images/barChart1.png"), linear-gradient(to right, #ff8b59, #ffb696);
-    } 
-    .statContainer:nth-of-type(2){
-        background: url("/images/barChart2.png"), linear-gradient(to right, #08c382, #0df4a0);
-    } 
-    .statContainer:nth-of-type(3){
-        background: url("/images/barChart3.png"), linear-gradient(to right, #fb5d72, #f88f9f);
-    }
-    .statContainer:nth-of-type(4){
-        background: url("/images/barChart4.png"), linear-gradient(to right, #00adaa, #00dade);
-    }
-    .achievements .statContainer{
-        background-repeat: no-repeat;
-        background-position: 85% 85%;
     }
 
     .activityListContainer{
