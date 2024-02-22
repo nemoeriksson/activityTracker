@@ -55,7 +55,6 @@
 	async function sendCreateActivity(e: any) {
 		e.preventDefault();
 		const formData = new FormData(e.srcElement.form);
-		console.log(formData);
 		
 		try {
 			const response = await fetch("?/createActivity", {

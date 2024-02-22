@@ -11,9 +11,11 @@ export const load = (async ({cookies}) => {
 	if (!user) {
 		throw redirect(303, "/login");
 	}
-	const submissionCount = await findSubmissions(user.username)
+
 	const finishedActivities = await findFinished(user.id)
-	const activites = await getActivities();
+	const submissionCount = await findSubmissions(user.username);
+	const activites = await getActivities(true);
+
 	const points = await getPoints(user.id);
 	return {username: user.username, points: points, submitted: submissionCount,finished: finishedActivities, activites}
 }) satisfies PageServerLoad;

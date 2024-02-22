@@ -2,7 +2,7 @@
 import { PrismaClient } from "@prisma/client";
 import { Chart, type ChartConfiguration } from 'chart.js/auto';
 
-const prisma = new PrismaClient()
+export const prisma = new PrismaClient()
 
 export async function getUserByName(username: string) {
 	const user = await prisma.user.findUnique({
@@ -153,11 +153,20 @@ export async function validatePassword(user:any, password:string) {
 	return user.hash == await passwordToHash(password, user.salt);
 }
 
-export async function getActivities() {
+export async function getActivities(approved: boolean) {
 	return await prisma.aktivitet.findMany({
-		where: {
-			approved: true
-		}
+		where: approved ? {
+			approved: approved
+		} : {},
+	});
+}
+
+export async function getYourActivities(approved: boolean, user: any) {
+	return await prisma.aktivitet.findMany({
+		where: approved ? {
+			userId: user.id,
+			approved: approved
+		} : {userId: user.id},
 	});
 }
 
@@ -187,7 +196,7 @@ export async function completeActivity(activityId: number, username: string){
 	}
 }
 
-export async function createActivity(name: string, description: string, category: string, theme: string, user: any) {
+export async function createActivity(name: string, description: string, category: string, user: any) {
 	return await prisma.aktivitet.create({
 		data: {
 			name,
