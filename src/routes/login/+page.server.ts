@@ -51,12 +51,13 @@ export const actions: Actions = {
 			return fail(403, {error: 'Incorrect validation input', errorType: 3});
 
 		const validPassword = await validatePassword(existingUser, password);
-
+		
 		if(validPassword){
 			const authToken = await createAuthToken(existingUser);
 			cookies.set('token', authToken.id, {secure: false, path: '/', expires:new Date(Date.now() + expirationTime)});
 			
 			throw redirect(301, redirectionTarget);
 		}
+		return fail(403, {error: "inccorect Password"})
 	}
 };
