@@ -4,20 +4,20 @@
 
 <script lang="ts">
     import { enhance } from "$app/forms";
-	import type {PageData} from "./$types";
-	import {deserialize} from "$app/forms";
+	import type { PageData } from "./$types";
+	import { deserialize } from "$app/forms";
     import { onMount } from "svelte";
     import { generateRadarChart } from "$lib/db";
     import { getTier } from "$lib/index";
 	export let data: PageData;
 
 	let radarChartElement:HTMLCanvasElement;
-	let ctx:CanvasRenderingContext2D|null;
+	let ctx:CanvasRenderingContext2D|null;	
 
 	onMount(async ()=>{
 		ctx = radarChartElement.getContext('2d'); 
 		if(ctx){
-			await generateRadarChart(data.username, ctx);
+			await generateRadarChart(data.performances, ctx);
 		}
 	});
  

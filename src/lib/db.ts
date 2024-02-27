@@ -21,21 +21,16 @@ export async function getUserById(id: number) {
 	});
 	return user;
 }
-export async function findSubmissions(username:string) {
-	const data = await prisma.user.findUnique({
+export async function findSubmissions(userId:number) {
+	const data = await prisma.aktivitet.findMany({
 		where: {
-			username: username
-		},
-		include: {
-			createdAktivitet: {
-				where: {
-					approved: true
-				}
-			}
+			userId: userId,
+			approved: true
 		}
-	});
+	})
+	
 	if(data)
-		return data.createdAktivitet.length;
+		return data.length;
 	
 	throw new Error("ERROR: Activities not found");
 	
@@ -59,7 +54,7 @@ export async function getPoints(userId:number){
 			userId: userId
 		}
 	});
-	return data.map(val => val.points).reduce((s, c) => s+c, 0);
+	return data.map(val => val.points).reduce((s, c) => s + c, 0);
 }
 
 // https://developer.mozilla.org/en-US/docs/Glossary/Base64
@@ -161,6 +156,17 @@ export async function getActivities() {
 	});
 }
 
+export async function getPerformances(userId:number){
+	return await prisma.performance.findMany({
+		where: {
+			userId: userId
+		},
+		include: {
+			aktivitet: true
+		}
+	});
+}
+
 export async function completeActivity(activityId: number, username: string){
 	const user = await prisma.user.findUnique({
 		where: {
@@ -188,7 +194,7 @@ export async function completeActivity(activityId: number, username: string){
 }
 
 export async function createActivity(name: string, description: string, category: string, theme: string, user: any) {
-	return await prisma.aktivitet.create({
+ 	return await prisma.aktivitet.create({
 		data: {
 			name,
 			description,
@@ -209,7 +215,9 @@ export async function checkLoggedIn(authToken:string|undefined): Promise<Boolean
 	return user ? true : false;
 }
 
-export async function generateRadarChart(user:any, ctx:CanvasRenderingContext2D){
+export async function generateRadarChart(performances:any, ctx:CanvasRenderingContext2D){
+	const activityCategories = performances.map((p:any) => p.aktivitet.category);
+	
 	const data = {
 		labels: [
 			'Strength',
@@ -224,7 +232,7 @@ export async function generateRadarChart(user:any, ctx:CanvasRenderingContext2D)
 			backgroundColor: '#8039df40',
 			borderColor: '#8039df'
 		}]
-	  };
+	};
 	const config:ChartConfiguration = {
 		type: 'radar',
 		data: data,
