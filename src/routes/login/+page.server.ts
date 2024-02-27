@@ -1,5 +1,5 @@
 import type {Actions, PageServerLoad} from './$types';
-import {getUserByName, createUser, passwordToHash, deleteAuthToken, createAuthToken, validatePassword, getUserByAuthToken} from "$lib/db";
+import {getUserByName, createUser, passwordToHash, deleteAuthToken, createAuthToken, validatePassword, getUserByAuthToken} from "$lib/server/db";
 import {fail, redirect} from "@sveltejs/kit";
 
 const expirationTime = 30 * 3600 * 24;

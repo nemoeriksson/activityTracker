@@ -7,7 +7,7 @@
 	import type {PageData} from "./$types";
 	import {deserialize} from "$app/forms";
     import { onMount } from "svelte";
-    import { generateRadarChart } from "$lib/db";
+    import { generateRadarChart } from "$lib/index";
     import { getTier } from "$lib/index";
 	export let data: PageData;
 

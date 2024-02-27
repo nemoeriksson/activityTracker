@@ -1,4 +1,4 @@
-import { prisma, getUserByAuthToken, createActivity, getUserById, getActivities, getYourActivities } from '$lib/db';
+import { prisma, getUserByAuthToken, createActivity, getUserById, getActivities, getYourActivities } from '$lib/server/db';
 import { error } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 

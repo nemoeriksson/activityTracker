@@ -1,4 +1,4 @@
-import { getUserByAuthToken, getActivities, completeActivity, findSubmissions, getPoints, findFinished } from '$lib/db';
+import { getUserByAuthToken, getActivities, completeActivity, findSubmissions, getPoints, findFinished } from '$lib/server/db';
 import { redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
