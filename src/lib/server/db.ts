@@ -1,8 +1,7 @@
 
 import { PrismaClient } from "@prisma/client";
-import { Chart, type ChartConfiguration } from 'chart.js/auto';
 
-const prisma = new PrismaClient()
+export const prisma = new PrismaClient()
 
 export async function getUserByName(username: string) {
 	const user = await prisma.user.findUnique({
@@ -148,11 +147,20 @@ export async function validatePassword(user:any, password:string) {
 	return user.hash == await passwordToHash(password, user.salt);
 }
 
-export async function getActivities() {
+export async function getActivities(approved: boolean) {
 	return await prisma.aktivitet.findMany({
-		where: {
-			approved: true
-		}
+		where: approved ? {
+			approved: approved
+		} : {},
+	});
+}
+
+export async function getYourActivities(approved: boolean, user: any) {
+	return await prisma.aktivitet.findMany({
+		where: approved ? {
+			userId: user.id,
+			approved: approved
+		} : {userId: user.id},
 	});
 }
 
@@ -193,8 +201,8 @@ export async function completeActivity(activityId: number, username: string){
 	}
 }
 
-export async function createActivity(name: string, description: string, category: string, theme: string, user: any) {
- 	return await prisma.aktivitet.create({
+export async function createActivity(name: string, description: string, category: string, user: any) {
+	return await prisma.aktivitet.create({
 		data: {
 			name,
 			description,
@@ -213,68 +221,4 @@ export async function checkLoggedIn(authToken:string|undefined): Promise<Boolean
 
 	const user = await getUserByAuthToken(authToken);
 	return user ? true : false;
-}
-
-export async function generateRadarChart(performances:any, ctx:CanvasRenderingContext2D){
-	const activityCategories = performances.map((p:any) => p.aktivitet.category);
-	
-	const data = {
-		labels: [
-			'Strength',
-			'Endurance',
-			'Yoga',
-			'Cardio',
-			'Other'
-		],
-		datasets: [{
-			data: [25, 20, 50, 10, 0],
-			fill: true,
-			backgroundColor: '#8039df40',
-			borderColor: '#8039df'
-		}]
-	};
-	const config:ChartConfiguration = {
-		type: 'radar',
-		data: data,
-		options: {
-		  	elements: {
-				line: {
-			  		borderWidth: 2
-				}
-		  	},
-			plugins: {
-				legend: {
-					display: false
-				},
-				tooltip: {
-					enabled: false
-				},
-				title: {
-					text: 'Category Split',
-					display: true,
-					font: {
-						size: 20
-					},
-					align: 'start',
-					color: '#000'
-				}
-			},
-			scales: {
-				r: {
-					suggestedMin: 0,
-					ticks: {
-						stepSize: 10,
-						color: '#000'
-					},
-					pointLabels: {
-						font: {
-							size: 16,
-						},
-						color: '#000',
-					}
-				}
-			}
-		},
-	};
-	const chart = new Chart(ctx, config);
 }

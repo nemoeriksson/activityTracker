@@ -1,4 +1,4 @@
-import { checkLoggedIn } from '$lib/db';
+import { checkLoggedIn } from '$lib/server/db';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 

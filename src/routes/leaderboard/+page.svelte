@@ -4,7 +4,7 @@
 
 <script lang="ts">
     import { enhance } from '$app/forms';
-    import { getTier } from '$lib';
+    import { getTier } from '$lib/index';
     import type { PageData } from './$types';
     
     export let data: PageData;

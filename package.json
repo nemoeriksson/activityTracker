@@ -11,6 +11,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/adapter-node": "^4.0.1",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"sass": "^1.70.0",
@@ -25,7 +26,11 @@
 	"dependencies": {
 		"@prisma/client": "^5.9.1",
 		"chart.js": "^4.4.1",
+		"node": "^21.6.2",
 		"particles.js": "^2.0.0",
 		"prisma": "^5.9.1"
+	},
+	"engines": {
+		 "node": ">=18"
 	}
 }

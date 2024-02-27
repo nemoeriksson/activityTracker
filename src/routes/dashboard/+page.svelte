@@ -7,7 +7,7 @@
 	import type { PageData } from "./$types";
 	import { deserialize } from "$app/forms";
     import { onMount } from "svelte";
-    import { generateRadarChart } from "$lib/db";
+    import { generateRadarChart } from "$lib/index";
     import { getTier } from "$lib/index";
 	export let data: PageData;
 
@@ -29,7 +29,7 @@
 	const stats = [
 		{
 			"title": "Completed Activities",
-			"value": 21,
+			"value": data.finished,
 			"updated": time
 		}, {
 			"title": "Submitted Activities",
@@ -55,7 +55,6 @@
 	async function sendCreateActivity(e: any) {
 		e.preventDefault();
 		const formData = new FormData(e.srcElement.form);
-		console.log(formData);
 		
 		try {
 			const response = await fetch("?/createActivity", {
