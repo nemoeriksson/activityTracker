@@ -19,9 +19,22 @@ export function getTier(points:number){
     return result;
 }
 
+function filterFor(list:string[], category:string): number{
+	return list.filter(el => el == category).length;
+}
+
 export async function generateRadarChart(performances:any, ctx:CanvasRenderingContext2D){
-	const activityCategories = performances.map((p:any) => p.aktivitet.category);
-	
+	const activityCategories = performances.map((p:any) => p.aktivitet.category);	
+	const length = activityCategories.length;
+
+	const stats = [
+		100 * filterFor(activityCategories, 'Strength') / length,
+		100 * filterFor(activityCategories, 'Endurance') / length,
+		100 * filterFor(activityCategories, 'Yoga') / length,
+		100 * filterFor(activityCategories, 'Cardio') / length,
+		100 * filterFor(activityCategories, 'Other') / length
+	].map(val => Math.max(val, 5));
+
 	const data = {
 		labels: [
 			'Strength',
@@ -31,7 +44,7 @@ export async function generateRadarChart(performances:any, ctx:CanvasRenderingCo
 			'Other'
 		],
 		datasets: [{
-			data: [25, 20, 50, 10, 0],
+			data: stats,
 			fill: true,
 			backgroundColor: '#8039df40',
 			borderColor: '#8039df'
@@ -66,8 +79,15 @@ export async function generateRadarChart(performances:any, ctx:CanvasRenderingCo
 			scales: {
 				r: {
 					suggestedMin: 0,
+					suggestedMax: Math.min(
+						Math.max(
+							50, 
+							Math.ceil(Math.max(...stats)/10)*10 + 10
+						), 
+						100
+					),
 					ticks: {
-						stepSize: 10,
+						stepSize: Math.max(...stats) > 50 ? 20 : 10,
 						color: '#000'
 					},
 					pointLabels: {

@@ -1,5 +1,5 @@
 import { prisma } from '$lib/server/db';
-import { checkLoggedIn, findSubmissions } from '$lib/server/db';
+import { checkLoggedIn } from '$lib/server/db';
 import type { PageServerLoad } from './$types';
 
 interface Ranking {

@@ -41,9 +41,9 @@ export async function findFinished(userId:number) {
 			userId:userId
 		},
 	})
-	if(data){
-		return data.length
-	} 
+	if(data)
+		return data.length;
+
 	throw new Error("ERROR: Performances not found");
 }
 

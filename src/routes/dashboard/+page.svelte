@@ -14,17 +14,17 @@
 	let radarChartElement:HTMLCanvasElement;
 	let ctx:CanvasRenderingContext2D|null;	
 
-	onMount(async ()=>{
-		ctx = radarChartElement.getContext('2d'); 
-		if(ctx){
-			await generateRadarChart(data.performances, ctx);
-		}
-	});
+	async function updateRadarChart(){
+		ctx = radarChartElement.getContext('2d');
+		if(ctx)
+			await generateRadarChart(performances, ctx);
+	}
+
+	onMount(updateRadarChart);
  
 	const now = new Date;
 	const time = `${now.getHours()}:${now.getMinutes()}`;
-
-	let tier = getTier( data.points );
+	const tier = getTier( data.points );
 	
 	const stats = [
 		{
@@ -47,38 +47,8 @@
 	];
 
 	let viewed = -1;
-	let activities = data.activites;
-
-	let showActivityCreatePanel = false;
-	let activityCreateDiv: HTMLDivElement;
-
-	async function sendCreateActivity(e: any) {
-		e.preventDefault();
-		const formData = new FormData(e.srcElement.form);
-		
-		try {
-			const response = await fetch("?/createActivity", {
-				method: "POST",
-				// Set the FormData instance as the request body
-				body: formData,
-			});
-			//console.log((await response.json()).data.split(",").slice(1)[0].split("").slice(1, -2));
-			let returnValue = deserialize(await response.text());
-			// @ts-ignore
-			let object = await JSON.parse(returnValue.data.error);
-			if (object.activity != null) {
-				activities.push(object.activity);
-				activities = [...activities]
-			}
-		} catch (e) {
-			alert("form failed: " + e);
-		}
-		showActivityCreatePanel = false;
-	}
-
-	function activateActivityCreatePanel() {
-		showActivityCreatePanel = true;
-	}
+	$: activities = data.activites;
+	$: performances = data.performances;	
 
 	function toggleView(target:number){
 		if(viewed == target){
