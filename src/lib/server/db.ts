@@ -48,12 +48,15 @@ export async function findFinished(userId:number) {
 }
 
 export async function getPoints(userId:number){
-	const data = await prisma.aktivitet.findMany({
+	const performances = await prisma.performance.findMany({
 		where: {
 			userId: userId
+		},
+		include: {
+			aktivitet: true
 		}
-	});
-	return data.map(val => val.points).reduce((s, c) => s + c, 0);
+	})
+	return performances.map(perf => perf.aktivitet.points).reduce((s, c) => s + c, 0);
 }
 
 // https://developer.mozilla.org/en-US/docs/Glossary/Base64
@@ -175,12 +178,12 @@ export async function getPerformances(userId:number){
 	});
 }
 
-export async function completeActivity(activityId: number, username: string){
+export async function toggleActivityCompletion(activityId: number, username: string){
 	const user = await prisma.user.findUnique({
 		where: {
 			username: username
 		}
-	})
+	});
 
 	if(user){
 		const existingPerformance = await prisma.performance.findFirst({
@@ -195,6 +198,13 @@ export async function completeActivity(activityId: number, username: string){
 				data: {
 					aktivitetId: activityId,
 					userId: user.id
+				}
+			});
+		}
+		else{
+			await prisma.performance.delete({
+				where: {
+					id: existingPerformance.id
 				}
 			});
 		}

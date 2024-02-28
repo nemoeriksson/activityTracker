@@ -5,28 +5,43 @@
 <script lang="ts">
     import { enhance } from "$app/forms";
 	import type { PageData } from "./$types";
-	import { deserialize } from "$app/forms";
     import { onMount } from "svelte";
-    import { generateRadarChart } from "$lib/index";
+    import { generateChartDataset, generateRadarChart } from "$lib/index";
     import { getTier } from "$lib/index";
-	export let data: PageData;
+    import type { Chart, ChartDataset } from "chart.js";
+    export let data: PageData;
 
 	let radarChartElement:HTMLCanvasElement;
 	let ctx:CanvasRenderingContext2D|null;	
+	let chart:Chart;
 
-	async function updateRadarChart(){
+	async function createRadarChart(){
 		ctx = radarChartElement.getContext('2d');
 		if(ctx)
-			await generateRadarChart(performances, ctx);
+			chart = await generateRadarChart(performances, ctx);
 	}
 
-	onMount(updateRadarChart);
+	async function updateRadarChart(){
+		const chartData:{
+			datasets: ChartDataset[],
+			maxRange: number
+		} = await generateChartDataset(performances);
+		
+		chart.data.datasets = chartData.datasets;
+		
+		if(chart.config.options?.scales?.r?.suggestedMax)
+			chart.config.options.scales.r.suggestedMax = chartData.maxRange;
+
+		chart.update();
+	}
+
+	onMount(createRadarChart);
  
 	const now = new Date;
 	const time = `${now.getHours()}:${now.getMinutes()}`;
-	const tier = getTier( data.points );
-	
-	const stats = [
+	$: tier = getTier(data.points);
+
+	$: stats = [
 		{
 			"title": "Completed Activities",
 			"value": data.finished,
@@ -48,7 +63,7 @@
 
 	let viewed = -1;
 	$: activities = data.activites;
-	$: performances = data.performances;	
+	$: performances = data.performances;
 
 	function toggleView(target:number){
 		if(viewed == target){
@@ -57,6 +72,10 @@
 		else{
 			viewed = target
 		}
+	}
+
+	function isCompleted(activityName:string){
+		return [...performances].map(v => v.aktivitet.name).includes(activityName);
 	}
 </script>
 
@@ -118,9 +137,7 @@
 						</tr>
 						<section class="description"
 							class:viewed={viewed==i}>
-							{#if activity.description}
-								<span>{activity.description}</span>
-							{/if}
+							<span>{activity.description}</span>
 							<div class="details">
 								{#if activity.reps}
 									<p>Reps: {activity.reps}</p>
@@ -131,10 +148,15 @@
 							</div>
 							<span></span>
 							<div class="options">
-								<form action="?/complete" method="post" use:enhance>
+								<form action="?/complete" method="post" use:enhance={()=>{
+									return async ({update}) => {
+										await update({invalidateAll:true});
+										await updateRadarChart();
+									}
+								}}>
 									<input type="hidden" name="activityId" value={activity.id}>
 									<input type="hidden" name="username" value={data.username}>
-									<button>Mark Completed</button>
+									<button>{isCompleted(activity.name) ? 'Unfinish' : 'Complete'}</button>
 								</form>
 							</div>
 						</section>

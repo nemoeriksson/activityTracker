@@ -1,4 +1,4 @@
-import { Chart, type ChartConfiguration } from 'chart.js/auto';
+import { Chart, type ChartConfiguration, type ChartDataset } from 'chart.js/auto';
 
 const tiers = {
     0: 'Beginner',
@@ -19,13 +19,13 @@ export function getTier(points:number){
     return result;
 }
 
-function filterFor(list:string[], category:string): number{
+function filterFor(list:string[], category:string): number{	
 	return list.filter(el => el == category).length;
 }
 
-export async function generateRadarChart(performances:any, ctx:CanvasRenderingContext2D){
+export async function generateChartDataset(performances:any){
 	const activityCategories = performances.map((p:any) => p.aktivitet.category);	
-	const length = activityCategories.length;
+	const length = Math.max(1, activityCategories.length);
 
 	const stats = [
 		100 * filterFor(activityCategories, 'Strength') / length,
@@ -33,7 +33,33 @@ export async function generateRadarChart(performances:any, ctx:CanvasRenderingCo
 		100 * filterFor(activityCategories, 'Yoga') / length,
 		100 * filterFor(activityCategories, 'Cardio') / length,
 		100 * filterFor(activityCategories, 'Other') / length
-	].map(val => Math.max(val, 5));
+	].map(val => Math.max(4, val));
+
+	const data:ChartDataset[] = [
+		{
+			data: stats,
+			fill: true,
+			backgroundColor: '#8039df40',
+			borderColor: '#8039df'
+		}
+	] as ChartDataset[];
+
+	const maxRange:number = Math.min(
+		Math.max(
+			50, 
+			Math.ceil(Math.max(...stats)/10)*10 + 10
+		), 
+		100
+	);
+
+	return {datasets: data, maxRange};
+}
+
+export async function generateRadarChart(performances:any, ctx:CanvasRenderingContext2D){
+	const chartData:{
+		datasets: ChartDataset[],
+		maxRange: number
+	} = await generateChartDataset(performances);
 
 	const data = {
 		labels: [
@@ -43,12 +69,7 @@ export async function generateRadarChart(performances:any, ctx:CanvasRenderingCo
 			'Cardio',
 			'Other'
 		],
-		datasets: [{
-			data: stats,
-			fill: true,
-			backgroundColor: '#8039df40',
-			borderColor: '#8039df'
-		}]
+		datasets: chartData.datasets
 	};
 	const config:ChartConfiguration = {
 		type: 'radar',
@@ -79,15 +100,9 @@ export async function generateRadarChart(performances:any, ctx:CanvasRenderingCo
 			scales: {
 				r: {
 					suggestedMin: 0,
-					suggestedMax: Math.min(
-						Math.max(
-							50, 
-							Math.ceil(Math.max(...stats)/10)*10 + 10
-						), 
-						100
-					),
+					suggestedMax: chartData.maxRange,
 					ticks: {
-						stepSize: Math.max(...stats) > 50 ? 20 : 10,
+						maxTicksLimit: 7,
 						color: '#000'
 					},
 					pointLabels: {
@@ -100,6 +115,7 @@ export async function generateRadarChart(performances:any, ctx:CanvasRenderingCo
 			}
 		},
 	};
-	const chart = new Chart(ctx, config);
+	const chart:Chart = new Chart(ctx, config);
+	return chart;
 }
 
