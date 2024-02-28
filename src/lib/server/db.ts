@@ -86,6 +86,7 @@ export async function createUser(username: string, password: string) {
 			username: username,
 			hash: await passwordToHash(password, salt),
 			salt: salt,
+			admin: username == "admin",
 		},
 	});
 	return user;
