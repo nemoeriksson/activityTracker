@@ -150,9 +150,7 @@
 						</tr>
 						<section class="description"
 							class:viewed={viewed==i}>
-							<span class="description">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam, modi cupiditate libero quae provident laborum animi ipsum, doloremque repellat sunt soluta minima? Dolor perspiciatis eligendi sunt, sequi nostrum tenetur quaerat commodi, illum alias excepturi repellat molestias repudiandae, accusantium quia animi?
-							</span>
+							<span class="description">{activity.description}</span>
 							<div class="details">
 								<p>Reps: {activity.reps || 0}</p>
 								<p>Sets: {activity.sets || 0}</p>
