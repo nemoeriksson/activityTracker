@@ -9,6 +9,7 @@
     import { generateChartDataset, generateRadarChart } from "$lib/index";
     import { getTier } from "$lib/index";
     import type { Chart, ChartDataset } from "chart.js";
+    import toast, { Toaster } from "svelte-french-toast";
     export let data: PageData;
 
 	let radarChartElement:HTMLCanvasElement;
@@ -77,7 +78,19 @@
 	function isCompleted(activityName:string){
 		return [...performances].map(v => v.aktivitet.name).includes(activityName);
 	}
+
+	function sendToast(activityName:string){
+		const completed = isCompleted(activityName);
+		
+		if(!completed){
+			toast.success(`Marked ${activityName} as complete`);
+		}else{
+			toast.success(`Marked ${activityName} as incomplete`);
+		}
+	}
 </script>
+
+<Toaster />
 
 <nav>
     <a class="title" href="/">OnFit</a>
@@ -132,31 +145,27 @@
 							<td>{activity.category}</td>
 							<td>{activity.points}</td>
 							<td>
-								<span on:click={()=>{toggleView(i)}}>{viewed==i ? 'Hide' : 'View'}</span>
+								<span aria-hidden="true" on:click={()=>{toggleView(i)}}>{viewed==i ? 'Hide' : 'View'}</span>
 							</td>
 						</tr>
 						<section class="description"
 							class:viewed={viewed==i}>
-							<span>{activity.description}</span>
+							<span class="description">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam, modi cupiditate libero quae provident laborum animi ipsum, doloremque repellat sunt soluta minima? Dolor perspiciatis eligendi sunt, sequi nostrum tenetur quaerat commodi, illum alias excepturi repellat molestias repudiandae, accusantium quia animi?
+							</span>
 							<div class="details">
-								{#if activity.reps}
-									<p>Reps: {activity.reps}</p>
-								{/if}
-								{#if activity.sets}
-									<p>Sets: {activity.sets}</p>
-								{/if}
+								<p>Reps: {activity.reps || 0}</p>
+								<p>Sets: {activity.sets || 0}</p>
 							</div>
-							<span></span>
 							<div class="options">
 								<form action="?/complete" method="post" use:enhance={()=>{
 									return async ({update}) => {
 										await update({invalidateAll:true});
 										await updateRadarChart();
-									}
-								}}>
+									}}}>
 									<input type="hidden" name="activityId" value={activity.id}>
 									<input type="hidden" name="username" value={data.username}>
-									<button>{isCompleted(activity.name) ? 'Unfinish' : 'Complete'}</button>
+									<button on:click={()=>{sendToast(activity.name)}}>{isCompleted(activity.name) ? 'Unfinish' : 'Complete'}</button>
 								</form>
 							</div>
 						</section>

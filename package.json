@@ -28,9 +28,10 @@
 		"chart.js": "^4.4.1",
 		"node": "^21.6.2",
 		"particles.js": "^2.0.0",
-		"prisma": "^5.9.1"
+		"prisma": "^5.9.1",
+		"svelte-french-toast": "^1.2.0"
 	},
 	"engines": {
-		 "node": ">=18"
+		"node": ">=18"
 	}
 }

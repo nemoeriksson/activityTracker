@@ -115,7 +115,6 @@ main{
     background-repeat: no-repeat;
     aspect-ratio: 1;
     height: 24px;
-
 }
 
 .footer .date{
@@ -150,7 +149,8 @@ table .header{
 }
 
 table .activity{
-    height: 40px;
+    height: 42px;
+    margin-bottom: 2px;
     background: var(--white);
     text-align: center;
 }
@@ -178,41 +178,32 @@ td span,
 
 .activity ~ section.description{
     width: 400%;
-    max-height: 0;
+    height: 0;
     overflow: hidden;
     background: var(--white);
     transition: 250ms all;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 1fr;
-    align-items: center;
     justify-items: center;
     border-bottom: 2px solid var(--light-gray2);
 }
 
 .activity ~ section.description.viewed{
-    max-height: 140px;
+    height: fit-content;
 }
 
-section.description .details{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr;
-    width: 100%;
-    align-items: center;
-    justify-items: center;
-}
-
-section.description span{
-    padding: 4px 10px;
+section.description span.description{
+    grid-area: 1 / 1 / 2 / 3;
+    padding: 0 8px 12px 8px;
+    line-height: 19px;
 } 
 
-section.description .options{
-    padding: 4px 10px;
-}
-
-section.description .options span{
-    
+section.description .details{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
 }
 
 .graphContainer{
