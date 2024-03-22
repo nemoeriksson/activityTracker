@@ -97,7 +97,7 @@
     
     <section class="links">
         <a href="/leaderboard">Leaderboard</a>
-        <a href="/submissions">Submissions</a>
+        <a href="/submissions">Suggestions</a>
         <form action=".?/logout" method="post" use:enhance>
 			<input type="hidden" name="origin" value="/dashboard">
             <button>Log Out</button>
@@ -129,7 +129,7 @@
 	
 	<div class="boxContainer">
 		<section class="activityListContainer">
-			<table>
+			<table class="nonMobile">
 				<tr class="header">
 					<th>Title</th>
 					<th>Category</th>
@@ -137,11 +137,11 @@
 					<th>Details</th>
 				</tr>
 			</table>
-			<div class="activities">
+			<div class="activities nonMobile">
 				<table>
 					{#each activities as activity, i}
 						<tr class="activity">
-							<td>{activity.name}</td>
+							<td class="title">{activity.name}</td>
 							<td>{activity.category}</td>
 							<td>{activity.points}</td>
 							<td>
@@ -169,6 +169,36 @@
 						</section>
 					{/each}
 				</table>
+			</div>
+			<div class="mobileOnly activities">
+				{#each activities as activity}
+					<div class="activity">
+						<p class="title">{activity.name}</p>
+						<p class="description">{activity.description}</p>
+
+						<footer>
+							<span>{activity.points} points</span>
+							<span>{activity.reps || 0} reps</span>
+							<span>{activity.sets || 1} sets</span>	
+							<form action="?/complete" method="post" use:enhance={()=>{
+								return async ({update}) => {
+									await update({invalidateAll:true});
+								}}}>
+								<input type="hidden" name="activityId" value={activity.id}>
+								<input type="hidden" name="username" value={data.username}>
+								<button on:click={()=>{sendToast(activity.name)}}>
+									<span class:draw={isCompleted(activity.name)} class="checkmark"></span>
+								</button>
+							</form>
+						</footer>
+					</div>
+				{/each}
+				{#if !activities.length}
+					<div class="activity">
+						<p class="title">Empty</p>
+						<p class="description">There are no activities yet. Be the first to create a suggestion <a href="/submissions">here</a> today.</p>
+					</div>
+				{/if}
 			</div>
 		</section>
 	

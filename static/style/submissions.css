@@ -1,0 +1,340 @@
+
+#site{
+    background: var(--white);
+}
+
+.content{
+    display: flex;
+    height: 100%;
+}
+
+.formContainer{
+    width: 45%;
+    background: white;
+    height: 85%;
+    border-radius: 8px;
+    position: absolute;
+    bottom: calc(calc(100% - var(--navbar-height)) / 2);
+    left: calc((100% + 240px) / 2);
+    transform: translate(-50%, 50%);
+    padding: 12px;
+}
+
+.formContainer.centered{
+    left: 50%;
+}
+
+.formContainer p.title{
+    text-align: center;
+    font-size: 1.75em;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.formContainer p.description{
+    text-align: center;
+    font-size: 1em;
+    max-width: 700px;
+    position: relative;
+    left: 50%;
+    margin-bottom: 16px;
+    transform: translateX(-50%);
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+.inputField{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 4%;
+}
+
+.inputField input,
+.inputField textarea,
+.inputField select{
+    border-radius: 4px;
+    border: 1px solid var(--black);
+    outline: none;
+    caret-color: auto;
+    padding: 0 4px;
+    font-size: 1em;
+}
+
+.inputField input,
+.inputField select{
+    height: 40px;
+}
+
+form button{
+    width: 100%;
+    font-size: 1em;
+    font-weight: 500;
+    background: var(--black);
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    height: 40px;
+}
+
+.inputField textarea{
+    resize: none;
+    padding: 4px 4px;
+}
+
+.inputField label{
+    gap: 6px;
+    font-weight: 500;
+}
+
+.inputField label span{
+    font-style: italic;
+    font-size: .75em;
+}
+
+.inputFieldGroup{
+    display: flex;
+    gap: 24px;
+}
+
+.inputFieldGroup .inputField{
+    flex-grow: 1;
+}
+
+input:focus, textarea:focus, select:focus{
+    outline: 1px solid var(--black);
+}
+
+.toggleView{
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: var(--dark);
+    color: var(--white);
+    border-radius: 4px;
+    padding: 6px 8px;
+    border: none;
+    outline: none;
+}
+
+button, select{
+    cursor: pointer;
+}
+
+.sidebar{
+    width: 240px !important;
+    background: var(--light-gray);
+    height: 100%;
+    border-right: 2px solid var(--light-gray2);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 0;
+}
+
+.sidebar button{
+    height: 40px;
+    font-size: 1em;
+    text-align: left;
+    padding-left: 30px;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid var(--light-gray2);
+}
+
+.sidebar button:first-of-type{
+    border-top: 1px solid var(--light-gray2);
+}
+
+.listContainer{
+    position: relative;
+    width: calc(100% - 240px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.listContainer > div{
+    width: 90%;
+}
+
+.listContainer .stats{
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.listContainer .stats .stat{
+    width: 280px;
+    height: 100px;
+    background: var(--light-gray);
+    border-radius: 6px;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.stats .stat .title{
+    font-size: 1.1em;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.stats .stat .value{
+    font-size: 1.5em;
+    margin-left: 12px;
+}
+
+hr{
+    background: var(--light-gray);
+    height: 2px;
+    border: none;
+    outline: none;
+    margin-top: 20px;
+}
+
+.listContainer .filters{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    margin-top: 20px;
+}
+
+.listContainer .filters .buttons{
+    background: var(--light-gray);
+    width: fit-content;
+    padding: 4px 4px;
+    border-radius: 6px;
+}
+
+.listContainer .filters .buttons button{
+    border: none;
+    outline: none;
+    height: 30px;
+    padding: 2px 10px;
+    font-size: 1em;
+    border-radius: 4px;
+    background: var(--light-gray);
+}
+
+.filters .buttons button.active{
+    background: var(--white);
+}
+
+.filters input{
+    width: 250px;
+    height: 40px;
+    outline: none;
+    background: var(--white);
+    border: 2px solid var(--light-gray2);
+    font-size: .9em;
+    padding: 4px 8px;
+    border-radius: 6px;
+    caret-color: auto;
+}
+
+table{
+    width: 90%;
+    table-layout: fixed;
+}
+
+.list{
+    border: 1px solid var(--light-gray2);
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.list tr{
+    height: 36px;
+}
+
+
+table.header{
+    background: var(--light-gray);
+    height: 30px;
+    margin-top: 24px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    font-size: 1em;
+}
+
+td{
+    font-size: 1em;
+    text-align: center;
+}
+
+td button{
+    padding: 4px 12px;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background: none;
+    color: black;
+    font-weight: 500;
+}
+
+td .btn{
+    font-weight: 500;
+    cursor: pointer;
+}
+
+td span.role{
+    width: fit-content;
+    padding: 2px 6px;
+    position: relative;
+    display: block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+td span.role::before{
+    content: '';
+    display: block;
+    width: 80px;
+    height: 20px;
+    border-radius: 4px;
+    position: absolute;
+    opacity: .5;
+    background: var(--highlight-blue);
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    z-index: -1;
+}
+
+td span.role.admin::before{
+    background: var(--highlight-yellow);
+}
+
+@media only screen and (max-width: 600px) and (orientation: portrait){
+    .formContainer p.title{
+        font-size: 1.25em;
+    }
+    .formContainer p.description{
+        font-size: .85em;
+    }
+    
+    .formContainer{
+        width: 90%;
+        height: fit-content;
+        top: calc(var(--navbar-height) + 2.5%);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .inputFieldGroup{
+        flex-direction: column;
+        gap: 0;
+        margin-bottom: 4px;
+    }
+}

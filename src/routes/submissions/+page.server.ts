@@ -1,4 +1,4 @@
-import { prisma, getUserByAuthToken, createActivity, getUserById, getActivities, getYourActivities } from '$lib/server/db';
+import { prisma, getUserByAuthToken, createActivity, getUserById, getActivities, getYourActivities, getUnnaprovedActivities, getAllUsers } from '$lib/server/db';
 import { error } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -7,60 +7,54 @@ import { redirect, fail } from '@sveltejs/kit';
 export const load = (async ({ cookies }) => {
     const authTokenId = cookies.get('token');
 	if (!authTokenId) throw redirect(301, '/');
+	
 	const user = await getUserByAuthToken(authTokenId);
 	if (!user) throw redirect(301, '/');
-	let new_user = {
-		admin: user.admin,
-		username: user.username,
-	};
-	let activitiesPre = user.admin
-		? await getActivities(false)
-		: await getYourActivities(false, user);
-	let activities = await Promise.all(
-		activitiesPre.map(async (input) => {
-			let object: any = input;
-			let user = await getUserById(input.userId);
-			object.creatorName = user ? user.username : "[deleted]";
-			return object; 
-		})
-	);
+	
+	let activities = <any>[];
+	let users = <any>[];
 
-	let users = user.admin ? await Promise.all(
-		(await prisma.user.findMany({})).map(async (input) => {
-			input.hash = "";
-			input.salt = "";
-			return input;
-		})
-	) : [];
+	if(user.admin){
+		activities = await getUnnaprovedActivities();
+		users = await getAllUsers();
+	}
 
-    return { user: new_user, activities, users};
+    return { isAdmin: user.admin, userId: user.id,  activities, users };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
 	createActivity: async ({request, cookies}) => {
-		let formData = await request.formData();
+		const data = await request.formData();
 	
-		let token = cookies.get("token");
+		const token = cookies.get("token");
 		if (!token) {
 			throw redirect(303, "/login");
 		}
-		let user = await getUserByAuthToken(token);
+		const user = await getUserByAuthToken(token);
 		if (!user) {
 			throw redirect(303, "/login");
 		}
 
-		const name = formData.get('name')!.toString();
-		const description = formData.get('description')!.toString();
-		
-		let activity: any = await createActivity(name, description, "", user);
-		activity.creatorName = user ? user.username : "[deleted]";
+		const title = data.get('title')!.toString();
+		const description = data.get('description')!.toString();
+		const category = data.get('category')!.toString();
+		const reps = parseInt(data.get('reps')?.toString() || '0')	
+		const sets = parseInt(data.get('sets')?.toString() || '0');
 
-		let returnObject = {
-			activity,
-		};
-		// the hell is happennin in here?
-		return fail(418, {error: JSON.stringify(returnObject)});
+		await prisma.aktivitet.create({
+			data: {
+				name: title,
+				description: description,
+				sets: sets == 0 ? undefined : sets,
+				reps: reps == 0 ? undefined : reps,
+				category: category,
+				userId: user.id
+			}
+		});
+
+		throw redirect(302, '/dashboard');
 	},
+
 	changeActivityApprove: async ({request, cookies}) => {
 		let token = cookies.get("token");
 		if (!token) {
@@ -112,12 +106,13 @@ export const actions: Actions = {
 			},
 		});
 	},
-	changeUserAdminBool: async ({request, cookies}) => {
-		let token = cookies.get("token");
+	toggleAdminRole: async ({request, cookies}) => {
+		const token = cookies.get("token");
 		if (!token) {
 			throw redirect(303, "/login");
 		}
-		let user = await getUserByAuthToken(token);
+		
+		const user = await getUserByAuthToken(token);
 		if (!user) {
 			throw redirect(303, "/login");
 		}
@@ -125,15 +120,16 @@ export const actions: Actions = {
 			error(404, "you are not admin. how he do dis?");
 		}
 
-		let formData = await request.formData();
-		let admin = formData.get("admin") == "true";
-		let id = parseInt(formData.get("id")!.toString());
-		await prisma.user.update({
+		const formData = await request.formData();
+		const isAdmin = formData.get("admin") == "true";
+		const userId = parseInt(formData.get("userId")!.toString());
+		
+		const updatedUser = await prisma.user.update({
 			where: {
-				id,
+				id: userId,
 			},
 			data: {
-				admin,
+				admin: !isAdmin,
 			},
 		});
 	},

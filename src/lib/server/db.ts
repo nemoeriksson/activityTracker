@@ -55,7 +55,7 @@ export async function getPoints(userId:number){
 		include: {
 			aktivitet: true
 		}
-	})
+	});
 	return performances.map(perf => perf.aktivitet.points).reduce((s, c) => s + c, 0);
 }
 
@@ -224,6 +224,31 @@ export async function createActivity(name: string, description: string, category
 			points: 0,
 			approved: false,
 		},
+	});
+}
+
+export async function getUnnaprovedActivities(){
+	return await prisma.aktivitet.findMany({
+		where: {
+			approved: false
+		},
+		include: {
+			creator: {
+				select: {
+					username: true
+				}
+			}
+		}
+	});
+}
+
+export async function getAllUsers(){
+	return await prisma.user.findMany({
+		select: {
+			id: true,
+			username: true,
+			admin: true,
+		}
 	});
 }
 

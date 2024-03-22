@@ -162,6 +162,12 @@ table .activity{
     overflow-y: scroll;
 }
 
+.options{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 td span,
 .options form button{
     text-decoration: none;
@@ -218,6 +224,107 @@ section.description .details{
     transform: translateX(-50%);
 }
 
+.mobileOnly.activities{
+    background: red;
+}
+
+.mobileOnly.activities .activity{
+    background: var(--white);
+    padding: 4px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.mobileOnly.activities .activity:not(:last-of-type){
+    border-bottom: 1px solid var(--gray);
+}
+
+.mobileOnly.activities .activity .title{
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+.activity .title::first-letter,
+.activity .description::first-letter,
+span.description::first-letter{
+    text-transform: capitalize;
+}
+
+.mobileOnly.activities .activity footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobileOnly.activities .activity footer span{
+    font-weight: 500;
+}
+
+.mobileOnly.activities .activity footer button{
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 50%;
+    width: 28px;
+    aspect-ratio: 1;
+}
+
+.mobileOnly.activities .activity .description a{
+    color: var(--main);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.checkmark {
+    display: none;
+}
+
+.checkmark.draw{
+    display: initial;
+}
+
+.checkmark::after{
+    opacity: 1;
+    height: 0px;
+    width: 0px;
+    transform-origin: left top;
+    border-right: 2px solid green;
+    border-top: 2px solid green;
+    content: '';
+    left: 10%;
+    top: 50%;
+    position: absolute; 
+}
+
+.checkmark.draw::after {
+    animation: checkmark 800ms ease forwards;
+    transform: scaleX(-1) rotate(135deg);
+}  
+
+@keyframes checkmark {
+    0% {
+      height: 0;
+      width: 0;
+      opacity: 1;
+    }
+    20% {
+      height: 0;
+      width: 8px;
+      opacity: 1;
+    }
+    40% {
+      height: 16px;
+      width: 8px;
+      opacity: 1;
+    }
+    100% {
+      height: 16px;
+      width: 8px;
+      opacity: 1;
+    }
+}
+
 @media only screen and (max-width: 600px) and (orientation: portrait){
     .achievements .statContainer{
         width: 40%;
@@ -238,5 +345,9 @@ section.description .details{
 
     main{
         overflow-y: scroll;
+    }
+
+    .activities{
+        max-height: calc(100% - var(--navbar-height) - 430px);
     }
 }
